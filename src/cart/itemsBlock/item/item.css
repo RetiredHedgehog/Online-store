@@ -2,7 +2,7 @@
 @import './image/image.css';
 
 
-.container__item {
+.items-container__item {
   display: flex;
   justify-content: space-between;
   align-items: center;
