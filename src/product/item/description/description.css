@@ -1,0 +1,17 @@
+.details-container__description-container {
+  width: 20%;
+  text-align: center;
+}
+
+.description-container__heading {
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.description-container__heading,
+.description-container__text {
+  margin: 0;
+}
+.details-container__container{
+  margin: .5rem;
+  border: 1px solid var(--main-border-color);
+}

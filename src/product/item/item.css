@@ -1,5 +1,6 @@
 @import './gallery/gallery.css';
 @import './bigImage/bigImage.css';
+@import './description/description.css';
 
 .item-container {
   width: 100%;
