@@ -1,5 +1,5 @@
 .item__image {
   width: 20%;
   height: 100%;
-  border: 1px solid var(--border-color-main);
+  border: 1px solid var(--main-border-color);
 }
