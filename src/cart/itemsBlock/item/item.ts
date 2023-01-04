@@ -1,5 +1,6 @@
 import Cart from "../../../classes/Cart";
 import { productItem } from "../../../interfaces/productsItem";
+import createImage from "./image/image";
 import createIndex from "./index";
 
 export default function createItem(
@@ -13,6 +14,7 @@ export default function createItem(
 
   wrapper.append(
     createIndex(index),
+    createImage(item),
   );
 
   return wrapper;
