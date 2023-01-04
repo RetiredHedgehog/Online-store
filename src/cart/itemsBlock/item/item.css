@@ -1,6 +1,6 @@
 @import './index/index.css';
 @import './image/image.css';
-
+@import './info/info.css';
 
 .items-container__item {
   display: flex;
