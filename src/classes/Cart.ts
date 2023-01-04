@@ -1,4 +1,4 @@
-import { productItem } from "../interfaces/productsItem";
+import productItem from "../interfaces/productsItem";
 
 export default class Cart {
   products: productItem[];

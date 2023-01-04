@@ -1,4 +1,4 @@
-import { productItem } from "../../../interfaces/productsItem";
+import productItem from "../../../interfaces/productsItem";
 
 export default function createCheckout(item: productItem) {
   const wrapper = document.createElement('div');

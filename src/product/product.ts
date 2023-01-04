@@ -1,4 +1,4 @@
-import { productItem } from "../interfaces/productsItem";
+import productItem from "../interfaces/productsItem";
 import createBreadcrumbs from "./breadcrumbs/breadcrumbs";
 import createItem from "./item/item";
 

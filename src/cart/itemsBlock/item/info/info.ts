@@ -1,6 +1,6 @@
-import { productItem } from "../../../../interfaces/productsItem";
+import productItem from "../../../../interfaces/productsItem";
 
-export function createInfo(item: productItem) {
+export default function createInfo(item: productItem) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('item__info')
 

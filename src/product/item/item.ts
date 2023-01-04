@@ -1,4 +1,4 @@
-import { productItem } from "../../interfaces/productsItem";
+import productItem from "../../interfaces/productsItem";
 import createGallery from "./gallery/gallery";
 import createBigImage from "./bigImage/bigImage";
 import createDescription from "./description/description";
