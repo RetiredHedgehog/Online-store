@@ -1,3 +1,5 @@
+@import '../product/product.css';
+
 /* HEADER */
 html{
   background-color: rgb(223, 239, 255);
@@ -245,4 +247,3 @@ border: 1px solid black;
   #nav_container_item_main_stock{
     overflow: unset;
   }
-
