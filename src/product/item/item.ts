@@ -1,4 +1,5 @@
 import { productItem } from "../../interfaces/productsItem";
+import createBigImage from "./bigImage/bigImage";
 
 export default function createItem(item: productItem) {
   const wrapper = document.createElement('div');
@@ -11,7 +12,9 @@ export default function createItem(item: productItem) {
   const detailsWrapper = document.createElement('div');
   detailsWrapper.classList.add('item-container__details-container');
 
-  detailsWrapper.append();
+  detailsWrapper.append(
+    createBigImage(item.images[0]),
+  );
 
   wrapper.append(titleWrapper, detailsWrapper);
   return wrapper;
