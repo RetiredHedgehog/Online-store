@@ -1,2 +1,13 @@
 @import './index/index.css';
 @import './image/image.css';
+
+
+.container__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--padding-main);
+  border-bottom: 2px var(--main-border-color) solid;
+
+  width: 100%;
+}
