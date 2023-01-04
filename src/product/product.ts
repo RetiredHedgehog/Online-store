@@ -1,5 +1,6 @@
 import { productItem } from "../interfaces/productsItem";
 import createBreadcrumbs from "./breadcrumbs/breadcrumbs";
+import createItem from "./item/item";
 
 export default function createProduct(item: productItem) {
   const wrapper = document.createElement('div');
@@ -7,6 +8,7 @@ export default function createProduct(item: productItem) {
 
   wrapper.append(
     createBreadcrumbs(item),
+    createItem(item)
   );
 
   return wrapper;
