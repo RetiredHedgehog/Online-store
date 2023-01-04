@@ -3,6 +3,7 @@ import { productItem } from "../../../interfaces/productsItem";
 import createImage from "./image/image";
 import createIndex from "./index";
 import { createInfo } from "./info/info";
+import createPrice from "./price/price";
 
 export default function createItem(
   item: productItem,
@@ -17,6 +18,7 @@ export default function createItem(
     createIndex(index),
     createImage(item),
     createInfo(item),
+    createPrice(item),
   );
 
   return wrapper;

@@ -1,6 +1,7 @@
 @import './index/index.css';
 @import './image/image.css';
 @import './info/info.css';
+@import './price/price.css';
 
 .items-container__item {
   display: flex;
