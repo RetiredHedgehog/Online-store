@@ -6,7 +6,7 @@ import createCheckout from "./checkout/checkout";
 
 export default function createItem(item: productItem) {
   const wrapper = document.createElement('div');
-  wrapper.classList.add('item-container');
+  wrapper.classList.add('main-container__item-container');
 
   const titleWrapper = document.createElement('div');
   titleWrapper.classList.add('item-container__title');
