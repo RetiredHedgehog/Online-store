@@ -2,6 +2,7 @@ import { productItem } from "../../interfaces/productsItem";
 import createGallery from "./gallery/gallery";
 import createBigImage from "./bigImage/bigImage";
 import createDescription from "./description/description";
+import createCheckout from "./checkout/checkout";
 
 export default function createItem(item: productItem) {
   const wrapper = document.createElement('div');
@@ -18,6 +19,7 @@ export default function createItem(item: productItem) {
     createGallery(item.images),
     createBigImage(item.images[0]),
     createDescription(item),
+    createCheckout(item),
   );
 
   wrapper.append(titleWrapper, detailsWrapper);
