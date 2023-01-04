@@ -7,6 +7,7 @@ export default function createCheckout(item: productItem) {
   const price = document.createElement('h2');
   price.innerText = `$${item.price}`;
 
+  // TODO: change functionality if product is in a cart
   const btnToggleCart = document.createElement('button');
   btnToggleCart.innerText = 'add to cart'.toUpperCase();
 
