@@ -1,4 +1,5 @@
 import { productItem } from "../../interfaces/productsItem";
+import createGallery from "./gallery/gallery";
 import createBigImage from "./bigImage/bigImage";
 
 export default function createItem(item: productItem) {
@@ -13,6 +14,7 @@ export default function createItem(item: productItem) {
   detailsWrapper.classList.add('item-container__details-container');
 
   detailsWrapper.append(
+    createGallery(item.images),
     createBigImage(item.images[0]),
   );
 
