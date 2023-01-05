@@ -6,5 +6,5 @@
   flex-grow: 1;
 
   width: 80%;
-  padding-left: var(--padding-main);
+  padding-left: var(--main-padding);
 }
