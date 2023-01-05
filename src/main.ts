@@ -19,12 +19,22 @@ const navContaiterBurgerSearch = document.getElementById('nav_contaiter_burgerSe
 let amountBrand : any
 let amountCategory : any
 let newItemsArray: any = [];
-const filterBrand: any = currentURL.searchParams.getAll('brand');
-const filterCategory: any = currentURL.searchParams.getAll('category');
+let filterBrand: any = currentURL.searchParams.getAll('brand');
+let filterCategory: any = currentURL.searchParams.getAll('category');
+const inpTextFilter: any = currentURL.searchParams.get('inpText')
+const column = document.getElementById('column')
+const row = document.getElementById('row')
+const resetFilt = document.getElementById('resetFilt')
+const Copy = document.getElementById('Copy')
+
+
+
+
+
 const filterPrice: any =[];
 let obj: any = {};
 let objCategory: any = {};
-
+let inpSearchArray: any = []
 let stateObj = { foo: "bar" } ;//asdasda
 let inpArrSearch: any = [];
 let input: any;
@@ -38,8 +48,11 @@ let mainContainerItem:any
 let mainContainerItemArray: any
 const itemBrandArray: any = [];
 const itemsArray: any = [];
+
+console.log(inpTextFilter)
 headerRender()
 amount()
+
 function headerRender(){
     const url = new URL(location.href)
     let text = url.searchParams.get('inpText');
@@ -53,7 +66,7 @@ function headerRender(){
             </a>
             <form> 
                 <input id="search" type="text" name="text" class="search" value="${text}" placeholder="Search here!">
-                <input id="searchButton" type="submit" name="submit" class="submit" value="Search">
+                
             </form>
             <a class="header_logo_a" href="cart.html">
                 <div class="header_cart"></div>
@@ -162,35 +175,30 @@ function renderInputsStock(array : object[]){
 
 
 function renderItems(array : object[])  {
-    const url = new URL(location.href)
-    const priceSort = url.searchParams.getAll('priceSort')
     mainContainerMini.innerHTML ='';
 array.map((item: any) => {
     let rand = Math.floor(Math.random()*item.images.length) // Нв вкус и цвет )
     
     mainContainerMini.innerHTML += `
     <div class="main_container_item" value="${item.brand.toLowerCase()};${item.category.toLowerCase()};${item.price};${item.stock};${item.title.toLowerCase()}" name="" id="">
-            <div class="main_container_item_header">
-           ${item.title}
-            </div>
-            <div style="background-image: url(${item.images[rand]});" class="main_container_item_body">
-                <div class="main_container_item_category">
-                <p>Category: ${item.category}</p>
-                <p>Brand: ${item.brand}</p>
-                <p>Price: ${item.price}</p>
-                <p>Discount: ${item.discountPercentage}%</p>
-                <p>Rating: ${item.rating}</p>
-                <p>Stock: ${item.stock}</p>
-                </div>
-                <div class="main_container_item_buttons">
-                    <div class="main_container_item_buttons_addRemove">add to cart</div>
-                    <div class="main_container_item_buttons_details">details</div>
+        <div style="background-image: url(${item.images[rand]});" class="main_container_item_img"></div>
+        <div class="main_container_item_header">
+        <div>${item.title}</div>
+        <div>$${item.price}</div>
 
-                </div>
-            </div>
         </div>
-        
-    `
+        <div class="categoryes">
+            <p>Category: ${item.category}</p>
+            <p>Brand: ${item.brand}</p>
+            <p>Price: ${item.price}</p>
+            <p>Discount: ${item.discountPercentage}</p>
+            <p>Rating: ${item.rating}</p>
+            <p>Stock: ${item.stock}</p>
+        </div>
+        <div id="addToCart">Add to cart</div>
+        <div id="details">Details</div>
+    </div>
+ `
 })
 // newItemsArray = []
 mainContainerItem = document.getElementsByClassName('main_container_item');
@@ -218,12 +226,18 @@ const inputMinStock: any = document.getElementById('inputMinStock')
 const inputMaxStock: any = document.getElementById('inputMaxStock')
 const progress = document.getElementById('progress')
 const progressStock = document.getElementById('progressStock')
-
 renderItems(json.products);
+
 renderInputsBrand(json.products);
 renderInputsCategory(json.products);
+textInp()
 filterRenderSearch()
-
+filterRenderSearchRowCol()
+renderRowColumn()
+columnButton()
+rowButton()
+resetButton()
+copyButton()
 
 
 const rangeInput: any = document.getElementsByClassName('inputs');
@@ -264,7 +278,6 @@ function RangeWidthStock(arrPrice: any) { // TODO change values
         progressStock.style.right =(1 - (arrPrice[arrPrice.length - 1] / 150)) * 100 + '%';
         progressStock.style.width =(arrPrice[arrPrice.length - 1] - arrPrice[0])/ 1.5 + '%';
     }
-    console.log('RangeWidthStock', progressStock.style.width)
 }
 
 
@@ -287,9 +300,15 @@ inpSearch.oninput = function() {
 
   };
 function search(text: string, arr: any) {
+    console.log(text)
     arr.map((item:any) => {
-        if(item.brand.toLowerCase().indexOf(text) > -1 || item.category.toLowerCase().indexOf(text) > -1 || item.title.toLowerCase().indexOf(text) > -1){
+        if(item.brand.toLowerCase().indexOf(text) > -1
+            || item.category.toLowerCase().indexOf(text) > -1
+            || item.title.toLowerCase().indexOf(text) > -1
+            ||item.price.toString().indexOf(text) > -1
+            ||item.stock.toString().indexOf(text) > -1){
             inpArrSearch.push(item.title.toLowerCase())
+            inpSearchArray.push(item)
         }
     })
 }
@@ -358,7 +377,6 @@ function inputRangeStockfunc() {
                 progressStock.style.right = (1 - (maxValStock / rangeInputStock[1].max)) * 100 + '%';
                 progressStock.style.width = ((maxValStock - minValStock)/ 1.5) + '%';
             }
-            console.log('inputRangeStockfunc',progressStock.style.width)
             currentURL.searchParams.delete('stock')
             currentURL.searchParams.append('stock' , inputMinStock.value)
             currentURL.searchParams.append('stock' , inputMaxStock.value)
@@ -482,7 +500,6 @@ newItemsArray = [];
         item.style.display = 'none';
         let arr = item.attributes[1].nodeValue.split(';')
         inpArrSearch.forEach((item1: any) => {
-            
            if (item1.toLowerCase() == arr[4].toLowerCase()){
             item.style.display = '';
             newItemsArray.push(item)
@@ -641,7 +658,6 @@ function inputNumberCurrentStockValueGenerator(arr: any) {
     progressStock.style.width =(priceArr[priceArr.length - 1] - priceArr[0])/ 1.5 + '%';
     }
     
-    console.log('inputNumberCurrentStockValueGenerator',progressStock.style.width )
 }
 price.addEventListener('click', filterSearchPrice)
 priceDown.addEventListener('click', filterSearchPriceDown)
@@ -671,6 +687,8 @@ function filterSearchPrice(): void {
     }
     })
     })
+    resetActive()
+    price.classList.toggle('active')
     currentURL.searchParams.delete('priceSort')
     currentURL.searchParams.append('priceSort' , 'up')
     window.history.replaceState(null, null, currentURL);
@@ -697,6 +715,8 @@ function filterSearchPriceDown(): void {
     }
     })
     })
+    resetActive()
+    priceDown.classList.toggle('active')
     currentURL.searchParams.delete('priceSort')
     currentURL.searchParams.delete('brandSort')
     currentURL.searchParams.delete('stockSort')
@@ -727,6 +747,8 @@ function filterSearchStock(): void {
     }
     })
     })
+    resetActive()
+    stock.classList.toggle('active')
     currentURL.searchParams.delete('priceSort')
     currentURL.searchParams.delete('brandSort')
     currentURL.searchParams.delete('stockSort')
@@ -755,6 +777,8 @@ function filterSearchBrand(): void {
     }
     })
     })
+    resetActive()
+    brand.classList.toggle('active')
     currentURL.searchParams.delete('priceSort')
     currentURL.searchParams.delete('brandSort')
     currentURL.searchParams.delete('stockSort')
@@ -783,6 +807,19 @@ function filterRenderSearch() {
         filterSearchBrand()
     }
 }
+function filterRenderSearchRowCol(){
+    const url = new URL(location.href)
+    const flexDirection = url.searchParams.get('flexDirection');
+    if( flexDirection === 'row'){
+        mainContainerMini.style.flexDirection = 'row'
+        row.classList.add('active')
+    } else if(flexDirection === 'column') {
+        mainContainerMini.style.flexDirection = 'column'
+        column.classList.add('active')
+
+    }
+    
+}
 
 function amount() {
 amountBrand = {}
@@ -801,3 +838,83 @@ json.products.map((item: any) => {
     
 })
 }
+function textInp() {
+    if (inpTextFilter) {
+        search(inpTextFilter,json.products)
+        searchFilter()
+    }
+    filterBrandfunc(json.products)
+}
+ function columnButton(){
+    column.addEventListener('click' , () => {
+        mainContainerMini.style.flexDirection = 'column'
+        row.classList.remove('active')
+        column.classList.add('active')
+        currentURL.searchParams.delete('flexDirection')
+        currentURL.searchParams.append('flexDirection' , 'column')
+        window.history.replaceState(null, null, currentURL);
+    })
+ }
+ function rowButton(){
+    row.addEventListener('click' , () => {
+        mainContainerMini.style.flexDirection = 'row'
+        column.classList.remove('active')
+        row.classList.add('active')
+        currentURL.searchParams.delete('flexDirection')
+        currentURL.searchParams.append('flexDirection' , 'row')
+        window.history.replaceState(null, null, currentURL);
+    })
+ }
+ function renderRowColumn() {
+    const url = new URL(location.href)
+    let rowCol = url.searchParams.get('flexDirection');
+    if( rowCol == 'row') {
+        mainContainerMini.style.flexDirection = 'row'
+    } else if(rowCol == 'column') {
+        mainContainerMini.style.flexDirection = 'column'
+    }
+ }
+ function resetButton() { 
+    resetFilt.addEventListener('click', () => {
+        resetActive()
+        column.classList.remove('active')
+        row.classList.remove('active')
+        currentURL.searchParams.delete('brand')
+        currentURL.searchParams.delete('category')
+        currentURL.searchParams.delete('price')
+        currentURL.searchParams.delete('stock')
+        currentURL.searchParams.delete('inpText')
+        currentURL.searchParams.delete('flexDirection')
+        currentURL.searchParams.delete('priceSort')
+        currentURL.searchParams.delete('stockSort')
+        currentURL.searchParams.delete('brandSort')
+        window.history.replaceState(null, null, currentURL)
+        
+        filterBrand = []
+        filterCategory = []
+        arrPrice = []
+        arrStock = []
+        inpArrSearch = []   
+        inpSearch.value = ''; 
+        arrCategory.map((item: any) => {
+            item.checked = false
+        })
+        arr.map((item: any) => {
+            item.checked = false
+        })
+        renderItems(json.products)
+        filterBrandfunc(json.products)
+    })
+ }
+ function copyButton() {
+    Copy.addEventListener('click' , () =>  {
+        navigator.clipboard.writeText(location.href)
+       
+    })
+ }
+ function resetActive() {
+    price.classList.remove('active')
+    priceDown.classList.remove('active')
+    stock.classList.remove('active')
+    brand.classList.remove('active')
+ }
