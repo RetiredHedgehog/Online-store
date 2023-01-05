@@ -1,11 +1,11 @@
 import Cart from "../../../../classes/Cart";
 
 export default function updateSummary(cart: Cart) {
-  const nodeTotal = document.getElementsByClassName('summary__info-total')[0] as HTMLElement;
-  const nodeCount = document.getElementsByClassName('summary__info-count')[0] as HTMLElement;
+  const total = document.getElementsByClassName('info-container__total')[0] as HTMLElement;
+  const ammount = document.getElementsByClassName('info-container__ammount')[0] as HTMLElement;
 
-  if (nodeTotal && nodeCount) {
-    nodeTotal.innerText = `Total: ${cart.total}`;
-    nodeCount.innerText = `Products: ${cart.count}`;
+  if (total && ammount) {
+    total.innerText = `Total: ${cart.total}`;
+    ammount.innerText = `Products: ${cart.count}`;
   }
 }
