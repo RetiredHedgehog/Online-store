@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--padding-main);
+  padding: var(--main-padding);
   border-bottom: 2px var(--main-border-color) solid;
 
   width: 100%;

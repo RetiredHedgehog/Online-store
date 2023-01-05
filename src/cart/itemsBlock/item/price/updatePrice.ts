@@ -1,0 +1,6 @@
+import productItem from "../../../../interfaces/productsItem";
+
+export default function updatePrice(wrapper: HTMLElement, item: productItem, sign: string = '$') {
+  const element = wrapper.getElementsByClassName('price-container__price')[0] as HTMLElement;
+  element.innerText = `${sign}${(item.count || 1) * item.price}`;
+}

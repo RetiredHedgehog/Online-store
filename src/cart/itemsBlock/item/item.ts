@@ -18,7 +18,7 @@ export default function createItem(
     createIndex(index),
     createImage(item),
     createInfo(item),
-    createPrice(item),
+    createPrice(item, cart),
   );
 
   return wrapper;
