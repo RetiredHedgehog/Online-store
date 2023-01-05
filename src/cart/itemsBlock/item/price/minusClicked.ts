@@ -16,13 +16,13 @@ export default function minusClicked(event: Event, cart:Cart) {
   if (item.count <= 1 || item.count === undefined) {
     cart.removeItem(index);
 
-    const itemsWrapper = document.getElementsByClassName('main-container__items-container')[0];
+    wrapper.remove();
 
     if (cart.length === 0) {
-      const title = itemsWrapper.firstChild.firstChild as HTMLElement;
+      const title = document.getElementsByClassName('items-container__title')[0] as HTMLElement;
       title.innerText = 'Your cart is empty!';
     } else {
-      const itemsContainer = itemsWrapper.lastChild as HTMLElement;
+      const itemsContainer = document.getElementsByClassName('items-container')[0] as HTMLElement;
       itemsContainer.replaceChildren(
         ...cart.products.map((element, index) => createItem(element, index, cart))
       );
