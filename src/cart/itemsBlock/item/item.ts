@@ -14,6 +14,7 @@ export default function createItem(
   const wrapper = document.createElement('div');
   wrapper.classList.add('items-container__item');
 
+  // TODO: add link to item page
   wrapper.append(
     createIndex(index),
     createImage(item),

@@ -8,7 +8,9 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--main-padding);
-  border-bottom: 2px var(--main-border-color) solid;
+  border-bottom: 1px var(--main-border-color) solid;
+}
 
-  width: 100%;
+.items-container__item:last-of-type {
+  border-bottom: none;
 }
