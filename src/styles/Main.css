@@ -1,3 +1,5 @@
+@import '../product/product.css';
+
 /* HEADER */
 html{
   background: #F9F9F9;
@@ -242,6 +244,8 @@ line-height: 120%;
   #nav_container_item_main_stock{
     overflow: unset;
   }
+<<<<<<< HEAD
+=======
 
   .active{
     color:rgb(223, 136, 69)
@@ -276,3 +280,4 @@ line-height: 120%;
 .row:hover{
   color:rgb(223, 136, 69);
 }
+>>>>>>> upstream/main

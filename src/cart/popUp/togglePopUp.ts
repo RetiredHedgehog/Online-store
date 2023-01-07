@@ -1,0 +1,11 @@
+export function openPopUp(event: Event) {
+  document.getElementsByClassName('popUp')[0]?.classList.remove('disabled');
+}
+
+export function closePopUp(event: Event) {
+  const target = event.target as HTMLElement;
+
+  if (target.classList.contains('popUp')) {
+    document.getElementsByClassName('popUp')[0]?.classList.add('disabled');
+  }
+}

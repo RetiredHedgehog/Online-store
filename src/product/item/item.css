@@ -1,0 +1,20 @@
+@import './gallery/gallery.css';
+@import './bigImage/bigImage.css';
+@import './description/description.css';
+@import './checkout/checkout.css';
+
+.main-container__item-container {
+  width: 100%;
+  margin-top: 2rem;
+
+  border: 1px solid var(--main-border-color);
+}
+
+.item-container__title {
+  text-align: center;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.item-container__details-container {
+  display: flex;
+}
