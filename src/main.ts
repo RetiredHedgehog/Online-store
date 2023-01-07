@@ -4,7 +4,6 @@ import createProduct from './components/product/product';
 import './styles/Main.css';
 import createHeader from './components/header/header';
 import createDoubleSlider from "./components/catalog/filters/doubleSlider/doubleSlider";
-//import createDoubleSlider from './components/catalog/filters/doubleSlider/doubleSlider';
 
 ;(async () => {
 
@@ -58,7 +57,6 @@ let mainContainerItemArray: any
 const itemBrandArray: any = [];
 const itemsArray: any = [];
 
-console.log(inpTextFilter)
 // === HEADER ===
 document.getElementsByTagName('body')[0].prepend(createHeader(cart));
 amount()
@@ -103,8 +101,8 @@ function renderInputsCategory(array : object[]){
     arrCategory = Array.from(inputCategory);
 }
 
-function renderItems(array : object[])  {
-  mainContainerMini.innerHTML ='';
+function renderItems(array : object[] = []) {
+  mainContainerMini.innerHTML = '';
 
   mainContainerMini.addEventListener('click', (event:Event) => {
     const target = event.target as HTMLElement;
@@ -204,27 +202,92 @@ rowButton()
 resetButton()
 copyButton()
 
+function sliderAddListeners(className: 'Price' | 'Stock', gap: number = 10, cart: Cart) {
+  const arrayInputs = Array.from(document.getElementsByClassName(`inputs${className}`)) as HTMLInputElement[];
 
-const rangeInput: any = document.getElementsByClassName('inputsPrice');
+  arrayInputs.forEach((input, index, array) => {
+    const inputMin = document.getElementById(`inputMin${className}`) as HTMLInputElement;
+    const inputMax = document.getElementById(`inputMax${className}`) as HTMLInputElement;
+    const progress = document.getElementById(`progress${className}`) as HTMLElement;
 
-const rangeInputStock: any = document.getElementsByClassName('inputsStock');
+    input.addEventListener('input', (event: Event) => {
+      const min = parseInt(array[0].value);
+      const max = parseInt(array[1].value);
 
+      inputMin.value = min.toString();
+      inputMax.value = max.toString();
 
-const priceGap  = 250
-const stockGap = 10
+      if(max - min < gap) {
+        if ((<HTMLElement>event.target).matches(`.range-min.inputs${className}`)) {
+          const value = (max - gap).toString();
+
+          array[0].value = value;
+          inputMin.value = value;
+        } else {
+          const value = (min + gap).toString();
+
+          array[1].value = value;
+          inputMax.value = value;
+        }
+      } else {
+        progress.style.left = `${(min / parseInt(array[0].max)) * 100}%`;
+        progress.style.right = `${100 - (max / parseInt(array[1].max)) * 100}%`;
+        progress.style.width =`${Math.abs(parseFloat(progress.style.left) - (100 - parseFloat(progress.style.right)))}%`;
+      }
+    });
+
+    input.addEventListener('change', (event: Event) => {
+      currentURL.searchParams.delete('price');
+      currentURL.searchParams.append('price' , inputMin.value);
+      currentURL.searchParams.append('price' , inputMax.value);
+      window.history.replaceState(null, null, currentURL);
+
+      (className === 'Price')
+        ? inputRangeArrayfunc(cart.productsFetched)
+        : inputRangeStockArrayfunc(cart.productsFetched);
+
+      filterBrandfunc(cart.productsFetched);
+    });
+  });
+}
+
+function inputRangeArrayfunc(array: any) {
+  arrPrice = [];
+  array.map((item: any) => {
+    if(item.price <= +inputMax.value && item.price >= +inputMin.value){
+      arrPrice.push(item.price);
+    }
+  })
+  arrPrice.sort((a: number, b: number) => (a > b) ? 1 : -1);
+}
+
+function inputRangeStockArrayfunc(array: any) {
+  arrStock = [];
+  array.map((item: any) => {
+    if(item.stock <= +inputMaxStock.value && item.stock >= +inputMinStock.value){
+      arrStock.push(item.stock);
+    }
+  })
+  arrStock.sort((a: number, b: number) => (a > b) ? 1 : -1);
+}
+
+sliderAddListeners('Price', 100, cart);
+sliderAddListeners('Stock', 10, cart);
+
+const rangeInputPrice = Array.from(document.getElementsByClassName(`inputsPrice`)) as HTMLInputElement[];
+
 RangeWidth(arrPrice)
 RangeWidthStock(arrStock)
-inputRangefunc()
-inputRangeStockfunc()
+
 function RangeWidth(arrPrice: any) {
     const url = new URL(location.href)
     const price = url.searchParams.getAll('price');
     if ( price.length !== 0) {
-    progress.style.left =(+price[0] / rangeInput[0].max) * 100 + '%';
+    progress.style.left =(+price[0] / +rangeInputPrice[0].max) * 100 + '%';
     progress.style.right =(+price[1] / 1749) * 100 + '%' ;
     progress.style.width =(+price[1] - +price[0]) / 17.49 + '%';
     } else {
-        progress.style.left = (arrPrice[0] / rangeInput[0].max) * 100 + '%';
+        progress.style.left = (arrPrice[0] / +rangeInputPrice[0].max) * 100 + '%';
         progress.style.right =(arrPrice[arrPrice.length - 1] / 1749) * 100 + '%';
         progress.style.width =(arrPrice[arrPrice.length - 1] - arrPrice[0])/ 17.49 + '%';
 
@@ -265,7 +328,6 @@ inpSearch.oninput = function() {
 
   };
 function search(text: string, arr: any) {
-    console.log(text)
     arr.map((item:any) => {
         if(item.brand.toLowerCase().indexOf(text) > -1
             || item.category.toLowerCase().indexOf(text) > -1
@@ -278,117 +340,19 @@ function search(text: string, arr: any) {
     })
 }
 
-
-
-
-  
-
-function inputRangefunc() {
-for  (const input of rangeInput) {
-    input.addEventListener('change', (e: any) => {
-        let minVal = parseInt(rangeInput[0].value)
-        let maxVal = parseInt(rangeInput[1].value)
-        inputMin.value = minVal
-        inputMax.value = maxVal
-        
-        
-        if(maxVal - minVal < priceGap){
-            if(e.target.className === 'range-min inputsPrice'){
-
-                rangeInput[0].value = maxVal - priceGap;
-                inputMin.value = maxVal - priceGap;
-                
-            } else {
-                rangeInput[1].value = minVal + priceGap;
-                inputMax.value = minVal + priceGap;
-
-            }
-        } else {
-            progress.style.left = (minVal / rangeInput[0].max) * 100 + '%';
-            progress.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + '%';
-            progress.style.width = (maxVal - minVal)/ 20 + '%';
-            
-        }
-        currentURL.searchParams.delete('price')
-            currentURL.searchParams.append('price' , inputMin.value)
-            currentURL.searchParams.append('price' , inputMax.value)
-            window.history.replaceState(null, null, currentURL);
-        inputRangeArrayfunc(json.products)
-        filterBrandfunc(json.products);
-    })
-}
+function inputRangeArrayfuncStart(array: any) {
+  array.map((item: any) => {
+    arrPrice.push(item.price);
+  })
+  arrPrice.sort((a: number, b: number) => (a > b) ? 1 : -1);
 }
 
-function inputRangeStockfunc() {
-    for  (const input of rangeInputStock) {
-        input.addEventListener('change', (e: any) => {
-            let minValStock = parseInt(rangeInputStock[0].value)
-            let maxValStock = parseInt(rangeInputStock[1].value)
-            inputMinStock.value = minValStock
-            inputMaxStock.value = maxValStock
-            if(maxValStock - minValStock < stockGap){
-                if(e.target.className === 'range-minStock inputsStock'){
-    
-                    rangeInputStock[0].value = maxValStock - stockGap;
-                    inputMinStock.value = maxValStock - stockGap;
-                    
-                } else {
-                    rangeInputStock[1].value = minValStock + stockGap;
-                    inputMaxStock.value = minValStock + stockGap;
-    
-                }
-            } else {
-                progressStock.style.left = (minValStock / rangeInputStock[0].max) * 100 + '%';
-                progressStock.style.right = (1 - (maxValStock / rangeInputStock[1].max)) * 100 + '%';
-                progressStock.style.width = ((maxValStock - minValStock)/ 1.5) + '%';
-            }
-            currentURL.searchParams.delete('stock')
-            currentURL.searchParams.append('stock' , inputMinStock.value)
-            currentURL.searchParams.append('stock' , inputMaxStock.value)
-            window.history.replaceState(null, null, currentURL);
-            inputRangeStockArrayfunc(json.products)
-            filterBrandfunc(json.products);
-        })
-    }
-    }
- function inputRangeArrayfuncStart(array: any) {
-    array.map((item: any) => {
-            arrPrice.push(item.price)
-    })
-    arrPrice.sort((a: number, b: number) => (a > b) ? 1 : -1)
-
- }
-
- function inputRangeArrayStockfuncStart(array: any) {
-    array.map((item: any) => {
-            arrStock.push(item.stock)
-    })
-    arrStock.sort((a: number, b: number) => (a > b) ? 1 : -1)
- }
-
-function inputRangeArrayfunc(array: any) {
-    arrPrice = [];
-    array.map((item: any) => {
-        if(item.price <= +inputMax.value && item.price >= +inputMin.value){
-            arrPrice.push(item.price)
-        }
-    })
-    arrPrice.sort((a: number, b: number) => (a > b) ? 1 : -1)
+function inputRangeArrayStockfuncStart(array: any) {
+  array.map((item: any) => {
+    arrStock.push(item.stock);
+  })
+  arrStock.sort((a: number, b: number) => (a > b) ? 1 : -1);
 }
-function inputRangeStockArrayfunc(array: any) {
-    arrStock = [];
-    array.map((item: any) => {
-        if(item.stock <= +inputMaxStock.value && item.stock >= +inputMinStock.value){
-            arrStock.push(item.stock)
-        }
-    })
-    arrStock.sort((a: number, b: number) => (a > b) ? 1 : -1)
-}
-
-
-
-
-
 
 arr.map((item: any) => {
     item.addEventListener('click', () => {

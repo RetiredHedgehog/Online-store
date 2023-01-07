@@ -26,6 +26,7 @@
 
 .slider .progress {
   height: 1px;
+  background-color: var(--secondary-color);
   position: absolute;
 }
 
@@ -33,25 +34,28 @@
   position: relative;
 }
 
+input[type="number"]{
+  width: 90%;
+}
+
 .range-input input {
   position: absolute;
   top: -3px;
   height: 5px;
   width: 100%;
+
   background: none;
-  /* pointer-events: none; */
+
+  pointer-events: none;
   appearance: none;
 }
 
-input[type="number"]{
-  width: 90%;
-}
-
-input[type="range"]::-webkit-slider-thumb{
-  height: 17px;
-  width: 17px;
+.range-input input::-moz-range-thumb,
+.range-input input::-webkit-slider-thumb {
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
-  /* pointer-events: auto; */
+
+  pointer-events: auto;
   appearance: none;
-  background: var(--secondary-color);
 }

@@ -10,6 +10,7 @@ export default function createDoubleSlider({className, text, cart, sortingField}
 
   const min = cart.productsFetched[0][sortingField];
   const max = cart.productsFetched[cart.productsFetched.length - 1][sortingField];
+  const step = 1;
 
   wrapper.innerHTML = ''; 
   wrapper.innerHTML += `
@@ -24,11 +25,11 @@ export default function createDoubleSlider({className, text, cart, sortingField}
         </div>
       </div>
       <div class="slider">
-          <div class="progress" id="progress${text}" />
+        <div class="progress" id="progress${text}" />
       </div>
       <div class="range-input">
-        <input type="range" id="inputRangeMin${text}" class="range-min inputs${text}" min="${min}" max="${max}" value="${min}"> 
-        <input type="range" id="inputRangeMax${text}" class="range-max inputs${text}" min="${min}" max="${max}" value="${max}">
+        <input type="range" id="inputRangeMin${text}" class="range-min inputs${text}" min="${min}" max="${max}" value="${min} step="${step}"> 
+        <input type="range" id="inputRangeMax${text}" class="range-max inputs${text}" min="${min}" max="${max}" value="${min}" step="${step}">
       </div>
     </div>`;
 
