@@ -1,7 +1,6 @@
 .details-container__gallery-container {
   margin-left: 2rem;
   display: flex;
-  align-items: center;
 }
 
 .gallery-container__photo-container {
