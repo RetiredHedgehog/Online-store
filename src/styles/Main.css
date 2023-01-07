@@ -1,4 +1,5 @@
 @import './norm.css';
+@import '../components/header/header.css';
 @import '../components/product/product.css';
 @import '../components/cart/cart.css';
 
@@ -6,6 +7,7 @@
   --main-border-color: black;
   --main-padding: 2rem;
   --main-background-color: #F9F9F9;
+  --secondary-color: #2C49DF;
 }
 
 /* HEADER */
@@ -29,7 +31,7 @@ body {
   justify-content: space-between;
 }
 .submit{
-    background-color: #2C49DF;
+    background-color: var(--secondary-color);
     border: 0px;
     padding: 0;
     width: 45px;
@@ -38,39 +40,19 @@ body {
     
 
 }
-.header_logo{
-    width: 100%;
-    background-image: url("../img/logo.png");
-    background-size: cover;
-    height: 100px;
-    
-}
-.header_logo_a{
-    width: 100px;
-    
-}
-.search{
-    height: 30px;
-    width: 100%;
-    border: 4px solid #2C49DF;
-    border-radius: 10px;
-}
-form{
-    
-    display: flex;
-    justify-content: flex-start;
 
-    height: 40px;
-    width: 40%;
-    background-color: #2C49DF;
-    border-radius: 10px;
+
+
+form{
+  display: flex;
+  justify-content: flex-start;
+
+  height: 40px;
+  width: 40%;
+  background-color: var(--secondary-color);
+  border-radius: 10px;
 }
-.header_cart{
-    width: 100px;
-    background-image: url("../img/cart.png");
-    background-size: cover;
-    height: 100px;
-}
+
 
 
 
@@ -115,7 +97,7 @@ margin-bottom: 3%;
   
   .nav_container_item_main::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: #2C49DF;
+    background-color: var(--secondary-color);
   }
   
   .nav_container_item_main::-webkit-scrollbar-track {
@@ -179,7 +161,7 @@ line-height: 120%;
 
 
 #addToCart{
-  background: #2C49DF;
+  background: var(--secondary-color);
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -251,7 +233,7 @@ line-height: 120%;
     border-radius: 50%;
     pointer-events: auto;
     appearance: none;
-    background: #2C49DF;
+    background: var(--secondary-color);
   }
   .price-input{
     display: flex;

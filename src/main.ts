@@ -3,6 +3,7 @@ import createCart from './components/cart/cart';
 import Cart from "classes/Cart";
 import createProduct from './components/product/product';
 import './styles/Main.css';
+import createHeader from './components/header/header';
 
 ;(async () => {
 
@@ -10,7 +11,6 @@ const cart = new Cart();
 await cart.fetchItems();
 cart.moveFromStorageToCart();
 
-const header = document.getElementById('header')
 const currentURL = new URL(location.href);
 const found = document.getElementById('found');
 const price = document.getElementById('price');
@@ -58,30 +58,8 @@ const itemBrandArray: any = [];
 const itemsArray: any = [];
 
 console.log(inpTextFilter)
-headerRender()
+document.getElementsByTagName('body')[0].prepend(createHeader(cart));
 amount()
-
-function headerRender(){
-  const url = new URL(location.href);
-  const text = url.searchParams.get('inpText') || '';
-
-  // TODO: change to router
-  header.addEventListener('click', (event: Event) => {
-    if ((<HTMLElement>event.target).classList.contains('header_cart')) {
-      document.getElementsByClassName('main')[0].replaceChildren(createCart(cart))
-    }
-  });
-
-  header.innerHTML= `
-    <a class="header_logo_a" href="index.html">
-      <div class="header_logo"></div>
-    </a>
-    <form> 
-      <input id="search" type="text" name="text" class="search" value="${text}" placeholder="Search here!">
-    </form>
-    <div class="header_cart"></div>
-  `;
-}
 
 function renderInputsBrand(array : any[]){
     navContainerItemMain.innerHTML = '';
