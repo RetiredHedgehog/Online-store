@@ -1,4 +1,4 @@
-import Cart from "../../../../classes/Cart";
+import Cart from "classes/Cart";
 import updateAmmount from "./updateAmmount";
 import updatePrice from "./updatePrice";
 import updateSummary from "./updateSummary";

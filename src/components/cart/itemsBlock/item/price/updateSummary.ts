@@ -1,4 +1,4 @@
-import Cart from "../../../../classes/Cart";
+import Cart from "classes/Cart";
 
 export default function updateSummary(cart: Cart) {
   const total = document.getElementsByClassName('info-container__total')[0] as HTMLElement;

@@ -1,4 +1,4 @@
-import Cart from "../../../classes/Cart";
+import Cart from "classes/Cart";
 import { openPopUp } from "../../popUp/togglePopUp";
 
 export default function createSummary(cart: Cart) {

@@ -1,10 +1,10 @@
-import Cart from "../../../../classes/Cart";
 import createItem from "../item"
+import Cart from "classes/Cart";
 import updateAmmount from "./updateAmmount";
 import updatePrice from "./updatePrice";
 import updateSummary from "./updateSummary";
 
-export default function minusClicked(event: Event, cart:Cart) {
+export default function minusClicked(event: Event, cart: Cart) {
   const target = event.target as HTMLElement;
   const wrapper = target.closest('.items-container__item') as HTMLElement | null;
 

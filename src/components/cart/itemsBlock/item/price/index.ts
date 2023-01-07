@@ -1,5 +1,5 @@
-import Cart from "../../../../classes/Cart";
-import productItem from "../../../../interfaces/productsItem";
+import Cart from "classes/Cart";
+import productItem from "interfaces/productsItem";
 import minusClicked from "./minusClicked";
 import plusClicked from "./plusClicked";
 

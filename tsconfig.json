@@ -1,12 +1,18 @@
 {
-    "compilerOptions": {
-      "outDir": "./dist/",
-     "sourceMap": true,
-      "noImplicitAny": true,
-      "module": "commonjs",
-      "target": "es5",
-      "jsx": "react",
-      "allowJs": true,
-      "moduleResolution": "node",
-    }
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "baseUrl": "src",
+    "paths": {
+      "interfaces": ["interfaces/*"],
+      "classes": ["classes/*"],
+      "@/*": ["*"],
+    },
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
   }
+}

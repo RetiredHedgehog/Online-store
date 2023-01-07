@@ -1,4 +1,4 @@
-import productItem from "../../../../interfaces/productsItem";
+import productItem from "interfaces/productsItem";
 
 export default function updatePrice(wrapper: HTMLElement, item: productItem, sign: string = '$') {
   const element = wrapper.getElementsByClassName('price-container__price')[0] as HTMLElement;

@@ -1,9 +1,9 @@
-import Cart from "../../../classes/Cart";
-import productItem from "../../../interfaces/productsItem";
-import createImage from "./image/image";
+import Cart from "classes/Cart";
+import productItem from "interfaces/productsItem";
+import createImage from "./image";
 import createIndex from "./index";
-import createInfo from "./info/info";
-import createPrice from "./price/price";
+import createInfo from "./info";
+import createPrice from "./price";
 
 export default function createItem(
   item: productItem,

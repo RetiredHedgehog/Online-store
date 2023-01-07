@@ -1,4 +1,4 @@
-import Cart from "../classes/Cart";
+import Cart from "classes/Cart";
 import createItemsBlock from "./itemsBlock/itemsBlock";
 import createPopUp from "./popUp/popUp";
 

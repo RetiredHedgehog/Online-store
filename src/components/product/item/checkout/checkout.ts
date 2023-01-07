@@ -1,5 +1,5 @@
-import Cart from "../../../classes/Cart";
-import productItem from "../../../interfaces/productsItem";
+import Cart from "classes/Cart";
+import productItem from "interfaces/productsItem";
 
 function toggleCart(event: Event, cart: Cart, id: number) {
   const target = event.currentTarget as HTMLElement;

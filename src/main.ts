@@ -1,9 +1,8 @@
 const json = require('./products.json');
-import { Entry } from 'webpack';
-import createCart from './cart/cart';
-import Cart from './classes/Cart';
-import createProduct from './product/product';
-import './styles/Main.css'
+import createCart from './components/cart/cart';
+import Cart from "classes/Cart";
+import createProduct from './components/product/product';
+import './styles/Main.css';
 
 ;(async () => {
 

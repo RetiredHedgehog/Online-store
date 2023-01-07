@@ -1,5 +1,5 @@
-import Cart from "../classes/Cart";
-import productItem from "../interfaces/productsItem";
+import Cart from "classes/Cart";
+import productItem from "interfaces/productsItem";
 import createBreadcrumbs from "./breadcrumbs/breadcrumbs";
 import createItem from "./item/item";
 

@@ -50,6 +50,11 @@ module.exports = (env, argv) => {
     },
 
     resolve: {
+      alias: {
+        intefaces: path.resolve(__dirname, 'src/interfaces'),
+        classes: path.resolve(__dirname, 'src/classes'),
+        '@': path.resolve(__dirname, 'src'),
+      },
       extensions: ['.tsx', '.ts', '.js'],
     },
   };
