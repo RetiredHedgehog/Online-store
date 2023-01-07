@@ -1,7 +1,13 @@
 const json = require('./products.json');
 import { Entry } from 'webpack';
+import Cart from './classes/Cart';
 import './styles/Main.css'
 import './styles/norm.css'
+
+const cart = new Cart();
+cart.fetchItems();
+cart.moveFromStorageToCart();
+
 const header = document.getElementById('header')
 const currentURL = new URL(location.href);
 const found = document.getElementById('found');
@@ -175,39 +181,58 @@ function renderInputsStock(array : object[]){
 
 
 function renderItems(array : object[])  {
-    mainContainerMini.innerHTML ='';
-array.map((item: any) => {
+  mainContainerMini.innerHTML ='';
+
+  mainContainerMini.addEventListener('click', (event:Event) => {
+    const target = event.target as HTMLElement;
+
+    if (target.id === 'addToCart')  {
+      const element = target.closest('.main_container_item') as HTMLElement;
+
+      cart.addItem(parseInt(element.dataset.id));
+
+      return;
+    }
+
+    if (target.id === 'details') {
+      // TODO: redirect to product page
+      return;
+    }
+  });
+
+  array.map((item: any) => {
     let rand = Math.floor(Math.random()*item.images.length) // Нв вкус и цвет )
-    
+
     mainContainerMini.innerHTML += `
-    <div class="main_container_item" value="${item.brand.toLowerCase()};${item.category.toLowerCase()};${item.price};${item.stock};${item.title.toLowerCase()}" name="" id="">
-        <div style="background-image: url(${item.images[rand]});" class="main_container_item_img"></div>
-        <div class="main_container_item_header">
-        <div>${item.title}</div>
-        <div>$${item.price}</div>
+      <div class="main_container_item" value="${item.brand.toLowerCase()};${item.category.toLowerCase()};${item.price};${item.stock};${item.title.toLowerCase()}" data-id="${item.id}" name="" id="">
+          <div style="background-image: url(${item.images[rand]});" class="main_container_item_img"></div>
+          <div class="main_container_item_header">
+          <div>${item.title}</div>
+          <div>$${item.price}</div>
 
-        </div>
-        <div class="categoryes">
-            <p>Category: ${item.category}</p>
-            <p>Brand: ${item.brand}</p>
-            <p>Price: ${item.price}</p>
-            <p>Discount: ${item.discountPercentage}</p>
-            <p>Rating: ${item.rating}</p>
-            <p>Stock: ${item.stock}</p>
-        </div>
-        <div id="addToCart">Add to cart</div>
-        <div id="details">Details</div>
-    </div>
- `
-})
-// newItemsArray = []
-mainContainerItem = document.getElementsByClassName('main_container_item');
-mainContainerItemArray = Array.from(mainContainerItem);
-mainContainerItemArray.map((item: any) => {
-    newItemsArray.push(item)
-})
-filterBrandfunc(json.products)
+          </div>
+          <div class="categoryes">
+              <p>Category: ${item.category}</p>
+              <p>Brand: ${item.brand}</p>
+              <p>Price: ${item.price}</p>
+              <p>Discount: ${item.discountPercentage}</p>
+              <p>Rating: ${item.rating}</p>
+              <p>Stock: ${item.stock}</p>
+          </div>
+          <button id="addToCart" class="btn">Add to cart</button>
+          <button id="details" class="btn">Details</button>
+      </div>
+    `;
+  })
 
+
+  // newItemsArray = []
+  mainContainerItem = document.getElementsByClassName('main_container_item');
+  mainContainerItemArray = Array.from(mainContainerItem);
+  mainContainerItemArray.map((item: any) => {
+      newItemsArray.push(item)
+  })
+  filterBrandfunc(json.products)
 }
 
  

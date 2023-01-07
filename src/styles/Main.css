@@ -1,4 +1,11 @@
 @import '../product/product.css';
+@import '../cart/cart.css';
+
+:root {
+  --main-border-color: black;
+  --main-padding: 2rem;
+  --main-background-color: #F9F9F9;
+}
 
 /* HEADER */
 html{
@@ -157,21 +164,36 @@ line-height: 120%;
   .categoryes{
     margin-bottom: 11%;
   }
-  #addToCart{
-    background: #2C49DF;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 12px 10px;
-    color: white;
-    margin-bottom: 7.3%;
-  }
-  #details{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+
+.btn {
+  border: none;
+  background-color: transparent;
+}
+
+.btn:hover {
+  cursor: pointer;
+  filter: brightness(80%);
+}
+
+
+#addToCart{
+  background: #2C49DF;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 10px;
+  color: white;
+  margin-bottom: 7.3%;
+  width: 100%;
+
+}
+#details{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
   
   .nav_contaiter_burgerSearch{
     width: 100;
@@ -244,8 +266,6 @@ line-height: 120%;
   #nav_container_item_main_stock{
     overflow: unset;
   }
-<<<<<<< HEAD
-=======
 
   .active{
     color:rgb(223, 136, 69)
@@ -280,4 +300,3 @@ line-height: 120%;
 .row:hover{
   color:rgb(223, 136, 69);
 }
->>>>>>> upstream/main
