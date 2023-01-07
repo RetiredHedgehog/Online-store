@@ -1,0 +1,57 @@
+#nav_container_item_main_price,
+#nav_container_item_main_stock{
+  height: 80px;
+  overflow: unset;
+}
+
+.nav_container_item_main__wrapper {
+  padding: 1%;
+}
+
+.price-input {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.field {
+  width: 30%;
+}
+
+.slider {
+  background-color: white;
+  outline: 1px solid #E2E2E2;
+  position: relative;
+}
+
+.slider .progress {
+  height: 1px;
+  position: absolute;
+}
+
+.range-input {
+  position: relative;
+}
+
+.range-input input {
+  position: absolute;
+  top: -3px;
+  height: 5px;
+  width: 100%;
+  background: none;
+  /* pointer-events: none; */
+  appearance: none;
+}
+
+input[type="number"]{
+  width: 90%;
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  /* pointer-events: auto; */
+  appearance: none;
+  background: var(--secondary-color);
+}

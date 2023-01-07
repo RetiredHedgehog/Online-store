@@ -1,9 +1,10 @@
 const json = require('./products.json');
-import createCart from './components/cart/cart';
 import Cart from "classes/Cart";
 import createProduct from './components/product/product';
 import './styles/Main.css';
 import createHeader from './components/header/header';
+import createDoubleSlider from "./components/catalog/filters/doubleSlider/doubleSlider";
+//import createDoubleSlider from './components/catalog/filters/doubleSlider/doubleSlider';
 
 ;(async () => {
 
@@ -58,6 +59,7 @@ const itemBrandArray: any = [];
 const itemsArray: any = [];
 
 console.log(inpTextFilter)
+// === HEADER ===
 document.getElementsByTagName('body')[0].prepend(createHeader(cart));
 amount()
 
@@ -101,65 +103,6 @@ function renderInputsCategory(array : object[]){
     arrCategory = Array.from(inputCategory);
 }
 
-function renderInputsPrice(array : object[]){
-    navContainerItemMainPrice.innerHTML = '';
-        navContainerItemMainPrice.innerHTML += `
-        <div class="wrapper">
-        <div class="price-input">
-            <div class="field">
-                <input type="number" class="input-min numberInput" id="inputMin" value="${arrPrice[0]}">
-            </div>
-            <div class="separator">-</div>
-            <div class="field">
-                <input type="number" class="input-max numberInput" id="inputMax" value="${arrPrice[arrPrice.length -1]}">
-            </div>
-        </div>
-        <div class="slider">
-            <div class="progress" id="progress"></div>
-        </div>
-        <div class="range-input">
-            
-            <input type="range" id="inputRangeMin" class="range-min inputs"  min="10" max="1749" value="${arrPrice[0]}"> 
-            <input type="range" id="inputRangeMax" class="range-max inputs"  min="10" max="1749" value="${arrPrice[arrPrice.length -1]}">
-        </div>
-    </div>
-</div>
-        `
-}
-
-
-function renderInputsStock(array : object[]){
-    navContainerItemMainStock.innerHTML = '';
-   
-    navContainerItemMainStock.innerHTML += `
-    <div class="wrapper">
-    <div class="price-input">
-        <div class="field">
-            <input type="number" class="input-minStock numberInputStock" id="inputMinStock" value="${arrStock[0] }">
-        </div>
-        <div class="separator">-</div>
-        <div class="field">
-            <input type="number" class="input-maxStock numberInputStock" id="inputMaxStock" value="${arrStock[arrStock.length -1]}">
-        </div>
-    </div>
-    <div class="slider">
-        <div class="progress" id="progressStock"></div>
-    </div>
-    <div class="range-input">
-        
-        <input type="range" id = "inputsRangeStockmin" class="range-minStock inputsStock"  min="2" max="150" value="${arrStock[0]}"> 
-        <input type="range" id = "inputsRangeStockmax" class="range-maxStock inputsStock"  min="2" max="150" value="${arrStock[arrStock.length -1]}">
-    </div>
-</div>
-</div>
-    `
-}
-
-
-
-
-
-
 function renderItems(array : object[])  {
   mainContainerMini.innerHTML ='';
 
@@ -180,7 +123,7 @@ function renderItems(array : object[])  {
     }
   });
 
-  array.map((item: any) => {
+  array.forEach((item: any) => {
     let rand = Math.floor(Math.random()*item.images.length) // Нв вкус и цвет )
 
     mainContainerMini.innerHTML += `
@@ -215,21 +158,38 @@ function renderItems(array : object[])  {
   filterBrandfunc(json.products)
 }
 
- 
-
+// === SLIDERS ===
 inputRangeArrayfuncStart(json.products)
 inputRangeArrayStockfuncStart(json.products)
-renderInputsPrice(json.products);
-renderInputsStock(json.products)
-const inputsRangeStockmin: any = document.getElementById('inputsRangeStockmin')
-const inputsRangeStockmax: any = document.getElementById('inputsRangeStockmax')
-const inputRangeMin: any = document.getElementById('inputRangeMin')
-const inputRangeMax: any = document.getElementById('inputRangeMax')
-const inputMin: any = document.getElementById('inputMin')
-const inputMax: any = document.getElementById('inputMax')
+
+// TODO: later move into catalog folder
+document.getElementById('nav_container_item_main_price').replaceWith(createDoubleSlider(
+  {
+    className: 'nav_container_item_main_price',
+    text: 'Price',
+    cart,
+    sortingField: 'price',
+  })
+);
+
+document.getElementById('nav_container_item_main_stock').replaceWith(createDoubleSlider(
+  {
+    className: 'nav_container_item_main_price',
+    text: 'Stock',
+    cart,
+    sortingField: 'stock',
+  })
+);
+
+const inputsRangeStockmin: any = document.getElementById('inputRangeMinStock')
+const inputsRangeStockmax: any = document.getElementById('inputRangeMaxStock')
+const inputRangeMin: any = document.getElementById('inputRangeMinPrice')
+const inputRangeMax: any = document.getElementById('inputRangeMaxPrice')
+const inputMin: any = document.getElementById('inputMinPrice')
+const inputMax: any = document.getElementById('inputMaxPrice')
 const inputMinStock: any = document.getElementById('inputMinStock')
 const inputMaxStock: any = document.getElementById('inputMaxStock')
-const progress = document.getElementById('progress')
+const progress = document.getElementById('progressPrice')
 const progressStock = document.getElementById('progressStock')
 renderItems(json.products);
 
@@ -245,7 +205,7 @@ resetButton()
 copyButton()
 
 
-const rangeInput: any = document.getElementsByClassName('inputs');
+const rangeInput: any = document.getElementsByClassName('inputsPrice');
 
 const rangeInputStock: any = document.getElementsByClassName('inputsStock');
 
@@ -325,7 +285,7 @@ function search(text: string, arr: any) {
 
 function inputRangefunc() {
 for  (const input of rangeInput) {
-    input.addEventListener('input', (e: any) => {
+    input.addEventListener('change', (e: any) => {
         let minVal = parseInt(rangeInput[0].value)
         let maxVal = parseInt(rangeInput[1].value)
         inputMin.value = minVal
@@ -333,7 +293,7 @@ for  (const input of rangeInput) {
         
         
         if(maxVal - minVal < priceGap){
-            if(e.target.className === 'range-min inputs'){
+            if(e.target.className === 'range-min inputsPrice'){
 
                 rangeInput[0].value = maxVal - priceGap;
                 inputMin.value = maxVal - priceGap;
@@ -361,7 +321,7 @@ for  (const input of rangeInput) {
 
 function inputRangeStockfunc() {
     for  (const input of rangeInputStock) {
-        input.addEventListener('input', (e: any) => {
+        input.addEventListener('change', (e: any) => {
             let minValStock = parseInt(rangeInputStock[0].value)
             let maxValStock = parseInt(rangeInputStock[1].value)
             inputMinStock.value = minValStock
