@@ -1,4 +1,3 @@
-import { runtime } from "webpack";
 import productItem from "../interfaces/productsItem";
 
 export default class Cart {
