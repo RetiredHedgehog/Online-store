@@ -65,7 +65,7 @@ form{
     border-radius: 10px;
 }
 .header_cart{
-    width: 100%;
+    width: 100px;
     background-image: url("../img/cart.png");
     background-size: cover;
     height: 100px;
@@ -166,7 +166,7 @@ line-height: 120%;
   }
 
 .btn {
-  border: none;
+  border: 1px solid var(--main-border-color);
   background-color: transparent;
 }
 

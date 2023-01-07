@@ -1,6 +1,8 @@
 const json = require('./products.json');
 import { Entry } from 'webpack';
+import createCart from './cart/cart';
 import Cart from './classes/Cart';
+import createProduct from './product/product';
 import './styles/Main.css'
 import './styles/norm.css'
 
@@ -62,25 +64,25 @@ headerRender()
 amount()
 
 function headerRender(){
-    const url = new URL(location.href)
-    let text = url.searchParams.get('inpText');
-    if(text === null) {
-        text = ''
+  const url = new URL(location.href);
+  const text = url.searchParams.get('inpText') || '';
+
+  // TODO: change to router
+  header.addEventListener('click', (event: Event) => {
+    if ((<HTMLElement>event.target).classList.contains('header_cart')) {
+      document.getElementsByClassName('main')[0].replaceChildren(createCart(cart))
     }
-    header.innerHTML= `
+  });
+
+  header.innerHTML= `
     <a class="header_logo_a" href="index.html">
-                <div class="header_logo"></div>
-                
-            </a>
-            <form> 
-                <input id="search" type="text" name="text" class="search" value="${text}" placeholder="Search here!">
-                
-            </form>
-            <a class="header_logo_a" href="cart.html">
-                <div class="header_cart"></div>
-    
-            </a>
-    `
+      <div class="header_logo"></div>
+    </a>
+    <form> 
+      <input id="search" type="text" name="text" class="search" value="${text}" placeholder="Search here!">
+    </form>
+    <div class="header_cart"></div>
+  `;
 }
 
 function renderInputsBrand(array : any[]){
@@ -187,17 +189,17 @@ function renderItems(array : object[])  {
 
   mainContainerMini.addEventListener('click', (event:Event) => {
     const target = event.target as HTMLElement;
+    const element = target.closest('.main_container_item') as HTMLElement;
+    const productId = parseInt(element.dataset.id);
 
     if (target.id === 'addToCart')  {
-      const element = target.closest('.main_container_item') as HTMLElement;
-
-      cart.addItem(parseInt(element.dataset.id));
-
+      cart.addItem(productId);
       return;
     }
 
+    // TODO: change it to router
     if (target.id === 'details') {
-      // TODO: redirect to product page
+      document.getElementsByClassName('main')[0].replaceChildren(createProduct(productId, cart));
       return;
     }
   });

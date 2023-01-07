@@ -35,9 +35,15 @@ export default class Cart {
   }
 
   addItem(id: number) {
-    const item = {...this.productsFetched.find((item: productItem) => item.id === id)};
+    const itemFound = this.products.find((itemSearch: productItem) => itemSearch.id === id);
 
-    this.products.push(item);
+    if (itemFound) {
+      itemFound.count = itemFound.count + 1 || 2;
+    } else {
+      const item = {...this.productsFetched.find((item: productItem) => item.id === id)};
+
+      this.products.push(item);
+    }
 
     window.localStorage.setItem('products', JSON.stringify(this.products));
   }

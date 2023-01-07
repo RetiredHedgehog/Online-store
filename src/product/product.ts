@@ -3,8 +3,9 @@ import productItem from "../interfaces/productsItem";
 import createBreadcrumbs from "./breadcrumbs/breadcrumbs";
 import createItem from "./item/item";
 
-// TODO: implement item detection through url afterouter is ready
-export default function createProduct(item: productItem, cart: Cart) {
+export default function createProduct(id: number, cart: Cart) {
+  const item = cart.productsFetched.find((item: productItem) => item.id === id);
+
   const wrapper = document.createElement('div');
   wrapper.classList.add('main-container');
 
