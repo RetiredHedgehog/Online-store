@@ -4,8 +4,10 @@ import Cart from './classes/Cart';
 import './styles/Main.css'
 import './styles/norm.css'
 
+;(async () => {
+
 const cart = new Cart();
-cart.fetchItems();
+await cart.fetchItems();
 cart.moveFromStorageToCart();
 
 const header = document.getElementById('header')
@@ -943,3 +945,4 @@ function textInp() {
     stock.classList.remove('active')
     brand.classList.remove('active')
  }
+})();

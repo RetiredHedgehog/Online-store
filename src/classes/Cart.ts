@@ -1,3 +1,4 @@
+import { runtime } from "webpack";
 import productItem from "../interfaces/productsItem";
 
 export default class Cart {
@@ -25,6 +26,14 @@ export default class Cart {
     window.localStorage.setItem('products', JSON.stringify(this.products));
   }
 
+  removeItembyId(id: number) {
+    const index = this.products.findIndex((ietm: productItem) => ietm.id === id);
+
+    this.products.splice(index, 1);
+
+    window.localStorage.setItem('products', JSON.stringify(this.products));
+  }
+
   addItem(id: number) {
     const item = {...this.productsFetched.find((item: productItem) => item.id === id)};
 
@@ -33,8 +42,8 @@ export default class Cart {
     window.localStorage.setItem('products', JSON.stringify(this.products));
   }
 
-  fetchItems(url: string = `https://dummyjson.com/products?limit=100`) {
-    fetch(url)
+  async fetchItems(url: string = `https://dummyjson.com/products?limit=100`) {
+    await fetch(url)
       .then(res => res.json())
       .then(data => this.productsFetched = data.products);
   }
