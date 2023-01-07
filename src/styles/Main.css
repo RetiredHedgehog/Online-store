@@ -148,7 +148,8 @@ margin-bottom: 3%;
   .main_container_item_img{
     margin: 0 auto;
     height: 173px;
-    background-size: cover;
+    width: 100%;
+    object-fit: cover;
     margin-bottom: 8.7%;
   }
   .main_container_item_header{

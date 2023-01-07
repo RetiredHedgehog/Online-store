@@ -209,25 +209,25 @@ function renderItems(array : object[])  {
 
     mainContainerMini.innerHTML += `
       <div class="main_container_item" value="${item.brand.toLowerCase()};${item.category.toLowerCase()};${item.price};${item.stock};${item.title.toLowerCase()}" data-id="${item.id}" name="" id="">
-          <div style="background-image: url(${item.images[rand]});" class="main_container_item_img"></div>
-          <div class="main_container_item_header">
-          <div>${item.title}</div>
-          <div>$${item.price}</div>
+      <img src=${item.images[rand]} class="main_container_item_img" alt="${item.title}"/>
+      <div class="main_container_item_header">
+        <div>${item.title}</div>
+        <div>$${item.price}</div>
 
-          </div>
-          <div class="categoryes">
-              <p>Category: ${item.category}</p>
-              <p>Brand: ${item.brand}</p>
-              <p>Price: ${item.price}</p>
-              <p>Discount: ${item.discountPercentage}</p>
-              <p>Rating: ${item.rating}</p>
-              <p>Stock: ${item.stock}</p>
-          </div>
-          <button id="addToCart" class="btn">Add to cart</button>
-          <button id="details" class="btn">Details</button>
+        </div>
+        <div class="categoryes">
+          <p>Category: ${item.category}</p>
+          <p>Brand: ${item.brand}</p>
+          <p>Price: ${item.price}</p>
+          <p>Discount: ${item.discountPercentage}</p>
+          <p>Rating: ${item.rating}</p>
+          <p>Stock: ${item.stock}</p>
+        </div>
+        <button id="addToCart" class="btn">Add to cart</button>
+        <button id="details" class="btn">Details</button>
       </div>
     `;
-  })
+  });
 
 
   // newItemsArray = []
