@@ -242,14 +242,14 @@ line-height: 120%;
     width: 100%;
     background: none;
     pointer-events: none;
-    -webkit-appearance: none;
+    appearance: none;
   }
   input[type="range"]::-webkit-slider-thumb{
     height: 17px;
     width: 17px;
     border-radius: 50%;
     pointer-events: auto;
-    -webkit-appearance: none;
+    appearance: none;
     background: #2C49DF;
   }
   .price-input{
