@@ -4,7 +4,6 @@ import createCart from './cart/cart';
 import Cart from './classes/Cart';
 import createProduct from './product/product';
 import './styles/Main.css'
-import './styles/norm.css'
 
 ;(async () => {
 
