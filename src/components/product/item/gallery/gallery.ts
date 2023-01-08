@@ -44,6 +44,10 @@ function asyncFillPhotoWrapper(root: Element, urls: string[]) {
       data.map(elem => elem.headers.get("content-length"))
     )
     .then(sizes => {
+      if (sizes.length <= 1) {
+        return urls;
+      }
+
       for (let i = 0; i < sizes.length - 1; i++) {
         if (!stack.includes(sizes[i])) {
           stack.push(sizes[i]);
