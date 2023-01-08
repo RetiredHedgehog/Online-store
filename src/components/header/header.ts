@@ -16,14 +16,26 @@ export default function createHeader(cart: Cart) {
     </form>
   `;
 
+  const btnCatalog = document.createElement('div');
+  btnCatalog.classList.add('header__logo-btn', 'btn');
+
+  btnCatalog.addEventListener('click', (event: Event) => {
+    history.pushState(null, null, ``);
+
+    //document.getElementsByClassName('main')[0].replaceChildren(catalog(cart));
+  });
+
   const btnCart = document.createElement('div');
   btnCart.classList.add('header__cart-btn', 'btn');
 
-  // TODO: change to router
-  btnCart.addEventListener('click', (event: Event) =>
-    document.getElementsByClassName('main')[0].replaceChildren(createCart(cart)));
+  btnCart.addEventListener('click', (event: Event) => {
+    history.pushState(null, null, `#/cart`);
 
-  header.append(btnCart)
+    document.getElementsByClassName('main')[0].replaceChildren(createCart(cart));
+  });
+
+  header.prepend(btnCatalog);
+  header.append(btnCart);
 
   return header;
 }

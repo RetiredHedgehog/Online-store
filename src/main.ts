@@ -1,9 +1,11 @@
 const json = require('./products.json');
 import Cart from "classes/Cart";
 import createProduct from './components/product/product';
-import './styles/Main.css';
 import createHeader from './components/header/header';
 import createDoubleSlider from "./components/catalog/filters/doubleSlider/doubleSlider";
+import createCart from "./components/cart/cart";
+import './styles/Main.css';
+import createFilters from "./components/catalog/filters/filter";
 
 ;(async () => {
 
@@ -12,6 +14,55 @@ await cart.fetchItems();
 cart.moveFromStorageToCart();
 
 const currentURL = new URL(location.href);
+currentURL.pathname = '/';
+
+// === HEADER ===
+document.getElementsByTagName('body')[0].prepend(createHeader(cart));
+
+console.log(currentURL)
+const routes = {
+  'cart': createCart,
+  'products': createProduct,
+  '': catalog,
+}
+
+function changeRoute(routes: object) {
+  const hash = (new URL(location.href)).hash.slice(2);
+  console.log(Date.now())
+console.log('hash: ',hash)
+  const route = Object.entries(routes).find(([key, value]) => {
+    console.log(hash,key,hash.includes(key))
+    if (hash.includes(key)) {
+      return value;
+    }
+
+    return false;
+  });
+console.log(route)
+  if (route) {
+    // TODO: FIX THIS
+    if (route[0] === '') {
+      catalog();
+      return;
+    }
+    document.getElementsByClassName('main')[0].replaceChildren(route[1](cart));
+
+    return;
+  }
+}
+
+window.addEventListener('popstate', function() {
+  changeRoute(routes);
+});
+window.addEventListener('hashchange', function() {
+  changeRoute(routes);
+});
+
+changeRoute(routes);
+
+
+function catalog() {
+document.getElementsByClassName('main')[0].prepend(createFilters(cart));
 const found = document.getElementById('found');
 const price = document.getElementById('price');
 const priceDown = document.getElementById('priceDown');
@@ -19,10 +70,10 @@ const stock = document.getElementById('stock');
 const brand = document.getElementById('brand');
 const mainContainerMini = document.getElementById('main_container_mini');
 let renderBrandValueArray: any = [];
-const navContainerItemMain = document.getElementById('nav_container_item_main');
-const navContainerItemMainCategory = document.getElementById('nav_container_item_main_category');
-const navContainerItemMainPrice = document.getElementById('nav_container_item_main_price');
-const navContainerItemMainStock = document.getElementById('nav_container_item_main_stock');
+const navContainerItemMain = document.getElementById('nav-container__main');
+const navContainerItemMainCategory = document.getElementById('nav-container__main_category') || document.createElement('div');
+const navContainerItemMainPrice = document.getElementById('nav-container__main_price');
+const navContainerItemMainStock = document.getElementById('nav-container__main_stock');
 const navContaiterBurgerSearch = document.getElementById('nav_contaiter_burgerSearch');
 let amountBrand : any
 let amountCategory : any
@@ -57,8 +108,7 @@ let mainContainerItemArray: any
 const itemBrandArray: any = [];
 const itemsArray: any = [];
 
-// === HEADER ===
-document.getElementsByTagName('body')[0].prepend(createHeader(cart));
+
 amount()
 
 function renderInputsBrand(array : any[]){
@@ -116,7 +166,11 @@ function renderItems(array : object[] = []) {
 
     // TODO: change it to router
     if (target.id === 'details') {
-      document.getElementsByClassName('main')[0].replaceChildren(createProduct(productId, cart));
+      currentURL.search = '';
+
+      window.history.pushState(null, null, `${currentURL}#/products/${productId}`);
+
+      document.getElementsByClassName('main')[0].replaceChildren(createProduct(cart));
       return;
     }
   });
@@ -161,23 +215,23 @@ inputRangeArrayfuncStart(json.products)
 inputRangeArrayStockfuncStart(json.products)
 
 // TODO: later move into catalog folder
-document.getElementById('nav_container_item_main_price').replaceWith(createDoubleSlider(
-  {
-    className: 'nav_container_item_main_price',
-    text: 'Price',
-    cart,
-    sortingField: 'price',
-  })
-);
+// document.getElementById('nav-container__main_price').replaceWith(createDoubleSlider(
+//   {
+//     className: 'nav-container__main_price',
+//     text: 'Price',
+//     cart,
+//     sortingField: 'price',
+//   })
+// );
 
-document.getElementById('nav_container_item_main_stock').replaceWith(createDoubleSlider(
-  {
-    className: 'nav_container_item_main_price',
-    text: 'Stock',
-    cart,
-    sortingField: 'stock',
-  })
-);
+// document.getElementById('nav-container__main_stock').replaceWith(createDoubleSlider(
+//   {
+//     className: 'nav-container__main_price',
+//     text: 'Stock',
+//     cart,
+//     sortingField: 'stock',
+//   })
+// );
 
 const inputsRangeStockmin: any = document.getElementById('inputRangeMinStock')
 const inputsRangeStockmax: any = document.getElementById('inputRangeMaxStock')
@@ -846,5 +900,5 @@ function textInp() {
     priceDown.classList.remove('active')
     stock.classList.remove('active')
     brand.classList.remove('active')
- }
+ }}
 })();

@@ -1,0 +1,47 @@
+@import './doubleSlider/doubleSlider.css';
+@import './list/list.css';
+
+.aside-container {
+  display: flex;
+  flex-direction: column;
+
+  width: 25%;
+}
+
+.nav-container__item {
+  padding: 10px 10px;
+  margin-bottom: 5%;
+
+  background: #FFFFFF;
+  border-radius: 16px;
+}
+
+.nav-container__header {
+  margin-bottom: 3%;
+}
+
+.nav-container__main {
+  display: block;
+  max-height: 200px;
+  height: fit-content;
+  overflow-y: auto;
+}
+
+.nav-container__main {
+  scrollbar-width: thin;
+}
+.nav-container__main::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f9f9fd;
+}
+
+.nav-container__main::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: var(--secondary-color);
+}
+
+.nav-container__main::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  background-color: #f9f9fd;
+}

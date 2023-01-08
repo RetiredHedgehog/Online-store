@@ -1,10 +1,10 @@
-#nav_container_item_main_price,
-#nav_container_item_main_stock{
+#nav-container__main_price,
+#nav-container__main_stock{
   height: 80px;
   overflow: unset;
 }
 
-.nav_container_item_main__wrapper {
+.nav-container__main__wrapper {
   padding: 1%;
 }
 
@@ -34,7 +34,7 @@
   position: relative;
 }
 
-input[type="number"]{
+input[type="number"] {
   width: 90%;
 }
 
@@ -43,19 +43,25 @@ input[type="number"]{
   top: -3px;
   height: 5px;
   width: 100%;
-
   background: none;
-
   pointer-events: none;
   appearance: none;
 }
 
-.range-input input::-moz-range-thumb,
-.range-input input::-webkit-slider-thumb {
-  height: 20px;
-  width: 20px;
+input[type="range"]::-moz-range-thumb {
+  height: 17px;
+  width: 17px;
   border-radius: 50%;
-
   pointer-events: auto;
   appearance: none;
+  background: var(--secondary-color);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  pointer-events: auto;
+  appearance: none;
+  background: var(--secondary-color);
 }

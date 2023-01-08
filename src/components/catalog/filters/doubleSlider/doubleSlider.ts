@@ -14,7 +14,7 @@ export default function createDoubleSlider({className, text, cart, sortingField}
 
   wrapper.innerHTML = ''; 
   wrapper.innerHTML += `
-    <div class="nav_container_item_main__wrapper">
+    <div class="nav-container__main__wrapper">
       <div class="price-input">
         <div class="field">
           <input type="number" class="input-min numberInput" id="inputMin${text}" value="${min}">
@@ -28,7 +28,7 @@ export default function createDoubleSlider({className, text, cart, sortingField}
         <div class="progress" id="progress${text}" />
       </div>
       <div class="range-input">
-        <input type="range" id="inputRangeMin${text}" class="range-min inputs${text}" min="${min}" max="${max}" value="${min} step="${step}"> 
+        <input type="range" id="inputRangeMin${text}" class="range-min inputs${text}" min="${min}" max="${max}" value="${min}" step="${step}"> 
         <input type="range" id="inputRangeMax${text}" class="range-max inputs${text}" min="${min}" max="${max}" value="${min}" step="${step}">
       </div>
     </div>`;
