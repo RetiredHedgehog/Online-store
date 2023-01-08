@@ -2,10 +2,9 @@ const json = require('./products.json');
 import Cart from "classes/Cart";
 import createProduct from './components/product/product';
 import createHeader from './components/header/header';
-import createDoubleSlider from "./components/catalog/filters/doubleSlider/doubleSlider";
 import createCart from "./components/cart/cart";
+import createCatalog from "./components/catalog/catalog";
 import './styles/Main.css';
-import createFilters from "./components/catalog/filters/filter";
 
 ;(async () => {
 
@@ -62,7 +61,7 @@ changeRoute(routes);
 
 
 function catalog() {
-document.getElementsByClassName('main')[0].prepend(createFilters(cart));
+document.getElementsByClassName('main')[0].replaceWith(createCatalog(cart));
 const found = document.getElementById('found');
 const price = document.getElementById('price');
 const priceDown = document.getElementById('priceDown');
@@ -154,29 +153,8 @@ function renderInputsCategory(array : object[]){
 function renderItems(array : object[] = []) {
   mainContainerMini.innerHTML = '';
 
-  mainContainerMini.addEventListener('click', (event:Event) => {
-    const target = event.target as HTMLElement;
-    const element = target.closest('.main_container_item') as HTMLElement;
-    const productId = parseInt(element.dataset.id);
-
-    if (target.id === 'addToCart')  {
-      cart.addItem(productId);
-      return;
-    }
-
-    // TODO: change it to router
-    if (target.id === 'details') {
-      currentURL.search = '';
-
-      window.history.pushState(null, null, `${currentURL}#/products/${productId}`);
-
-      document.getElementsByClassName('main')[0].replaceChildren(createProduct(cart));
-      return;
-    }
-  });
-
   array.forEach((item: any) => {
-    let rand = Math.floor(Math.random()*item.images.length) // Нв вкус и цвет )
+    let rand = Math.floor(Math.random()*item.images.length);
 
     mainContainerMini.innerHTML += `
       <div class="main_container_item" value="${item.brand.toLowerCase()};${item.category.toLowerCase()};${item.price};${item.stock};${item.title.toLowerCase()}" data-id="${item.id}" name="" id="">
@@ -202,8 +180,8 @@ function renderItems(array : object[] = []) {
 
 
   // newItemsArray = []
-  mainContainerItem = document.getElementsByClassName('main_container_item');
-  mainContainerItemArray = Array.from(mainContainerItem);
+  const mainContainerItem = document.getElementsByClassName('main_container_item');
+  const mainContainerItemArray = Array.from(mainContainerItem);
   mainContainerItemArray.map((item: any) => {
       newItemsArray.push(item)
   })
@@ -213,25 +191,6 @@ function renderItems(array : object[] = []) {
 // === SLIDERS ===
 inputRangeArrayfuncStart(json.products)
 inputRangeArrayStockfuncStart(json.products)
-
-// TODO: later move into catalog folder
-// document.getElementById('nav-container__main_price').replaceWith(createDoubleSlider(
-//   {
-//     className: 'nav-container__main_price',
-//     text: 'Price',
-//     cart,
-//     sortingField: 'price',
-//   })
-// );
-
-// document.getElementById('nav-container__main_stock').replaceWith(createDoubleSlider(
-//   {
-//     className: 'nav-container__main_price',
-//     text: 'Stock',
-//     cart,
-//     sortingField: 'stock',
-//   })
-// );
 
 const inputsRangeStockmin: any = document.getElementById('inputRangeMinStock')
 const inputsRangeStockmax: any = document.getElementById('inputRangeMaxStock')
@@ -523,17 +482,16 @@ function itemBrandArrayGenerator(obj: any, arr2:any){ //itemBrandArray,itemsArra
     navContainerItemMain.innerHTML = '';
 
     for (let k in obj){
-        navContainerItemMain.innerHTML += `
-        <div class="inputCheckbox">
-                                <input class="inputBrand" type="checkbox" name=""  value="${k}" ${brand.includes(k) ? 'checked' : ''}>
-                                <label  for="inputBrand">${k}
-                                <label class="inputBrandCurrentValue">
-                                    ${obj[k]}
-                                </label>
-                                /${amountBrand[k]}
-                                </label>
-                            </div>
-        `
+      navContainerItemMain.innerHTML += `
+      <div class="inputCheckbox">
+        <input class="inputBrand inputCheckbox__checkbox" type="checkbox" name=""  value="${k}" ${brand.includes(k) ? 'checked' : ''}>
+        <label  for="inputBrand">${k}
+        <label class="inputBrandCurrentValue">
+            ${obj[k]}
+        </label>
+        /${amountBrand[k]}
+        </label>
+      </div>`;
     }
     inputBrandCurrentValueInnerHTML(obj)
     
@@ -544,15 +502,14 @@ function itemCategoryArrayGenerator(obj: any , arr2:any) {
     for(let k in obj) {
         navContainerItemMainCategory.innerHTML += `
         <div class="inputCheckbox">
-                                <input  class="inputCategory" type="checkbox" name="Category"  value="${k}" ${categories.includes(k) ? 'checked' : ''}>
-                                <label for="inputCategory">${k}
-                                <label class="inputCategoryCurrentValue">
-                                ${obj[k]}
-                                </label>
-                                 ${amountCategory[k]}
-                                </label>
-                            </div>
-        `
+          <input  class="inputCategory inputCheckbox__checkbox" type="checkbox" name="Category"  value="${k}" ${categories.includes(k) ? 'checked' : ''}>
+          <label for="inputCategory">${k}
+          <label class="inputCategoryCurrentValue">
+          ${obj[k]}
+          </label>
+            ${amountCategory[k]}
+          </label>
+        </div>`;
     }
         
         inputCategoryCurrentValueInnerHTML(objCategory)
@@ -859,32 +816,12 @@ function textInp() {
  }
  function resetButton() { 
     resetFilt.addEventListener('click', () => {
-        resetActive()
-        column.classList.remove('active')
-        row.classList.remove('active')
-        currentURL.searchParams.delete('brand')
-        currentURL.searchParams.delete('category')
-        currentURL.searchParams.delete('price')
-        currentURL.searchParams.delete('stock')
-        currentURL.searchParams.delete('inpText')
-        currentURL.searchParams.delete('flexDirection')
-        currentURL.searchParams.delete('priceSort')
-        currentURL.searchParams.delete('stockSort')
-        currentURL.searchParams.delete('brandSort')
-        window.history.replaceState(null, null, currentURL)
-        
+
         filterBrand = []
         filterCategory = []
         arrPrice = []
         arrStock = []
-        inpArrSearch = []   
-        inpSearch.value = ''; 
-        arrCategory.map((item: any) => {
-            item.checked = false
-        })
-        arr.map((item: any) => {
-            item.checked = false
-        })
+        inpArrSearch = []
         renderItems(json.products)
         filterBrandfunc(json.products)
     })
