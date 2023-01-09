@@ -18,7 +18,7 @@ function createFilterWrapper(headingText: string) {
 }
 
 // TODO: delete containerName. it's there only temporary
-function createFilterBlock(headingText: string, innerBlock: HTMLElement, containerName: string = '') {
+function createFilterBlock(headingText: string, innerBlock: HTMLElement, containerName: string) {
   const block = createFilterWrapper(headingText);
 
   const wrrapper = document.createElement('div');
@@ -36,24 +36,32 @@ export default function createFilters(cart: Cart) {
   wrrapper.classList.add('aside-container');
 
   wrrapper.append(
-    createFilterBlock('Brand', createList(cart.productsFetched.map(item => item.brand))),
-    createFilterBlock('Category', createList(cart.productsFetched.map(item => item.category)), '_category'),
-    createFilterBlock('Price', createDoubleSlider(
-      {
-        className: 'nav-container__main_price',
-        text: 'Price',
-        cart,
-        sortingField: 'price',
-      }
-    )),
-    createFilterBlock('Stock', createDoubleSlider(
-      {
-        className: 'nav-container__main_price',
-        text: 'Stock',
-        cart,
-        sortingField: 'stock',
-      }
-    )),
+    createFilterBlock('Brand', createList(cart.productsFetched.map(item => item.brand)), '-brand'),
+    createFilterBlock('Category', createList(cart.productsFetched.map(item => item.category)), '-category'),
+    createFilterBlock(
+      'Price',
+      createDoubleSlider(
+        {
+          className: 'nav-container__main_price',
+          text: 'Price',
+          cart,
+          sortingField: 'price',
+        }
+      ),
+      '-price',
+    ),
+    createFilterBlock(
+      'Stock',
+      createDoubleSlider(
+        {
+          className: 'nav-container__main_price',
+          text: 'Stock',
+          cart,
+          sortingField: 'stock',
+        },
+      ),
+      '-stock',
+    ),
   );
 
   return wrrapper;

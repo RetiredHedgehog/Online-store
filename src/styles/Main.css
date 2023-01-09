@@ -85,7 +85,7 @@ a {
     object-fit: cover;
     margin-bottom: 8.7%;
   }
-  .main_container_item_header{
+  .main_container_item_heading{
     display: flex;
     justify-content: space-between;
     margin-bottom: 5.8%;
@@ -95,7 +95,7 @@ font-weight: 400;
 font-size: 20px;
 line-height: 120%;
   }
-  .categoryes{
+  .categories{
     margin-bottom: 11%;
   }
 

@@ -9,12 +9,12 @@ export default function renderItems(array : object[] = []) {
     mainContainerMini.innerHTML += `
       <div class="main_container_item" value="${item.brand.toLowerCase()};${item.category.toLowerCase()};${item.price};${item.stock};${item.title.toLowerCase()}" data-id="${item.id}" name="" id="">
       <img src=${item.images[rand]} class="main_container_item_img" alt="${item.title}"/>
-      <div class="main_container_item_header">
+      <div class="main_container_item_heading">
         <div>${item.title}</div>
         <div>$${item.price}</div>
 
         </div>
-        <div class="categoryes">
+        <div class="categories">
           <p>Category: ${item.category}</p>
           <p>Brand: ${item.brand}</p>
           <p>Price: ${item.price}</p>

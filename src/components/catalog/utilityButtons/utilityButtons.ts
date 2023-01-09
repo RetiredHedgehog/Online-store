@@ -1,4 +1,6 @@
+import btnCopyClicked from "./btnCopyClicked";
 import btnResetClicked from "./btnResetClicked";
+import btnRowColumnClicked from "./rowColumnClicked";
 
 export default function createUtilityButtons() {
   const wrapper = document.createElement('div');
@@ -16,23 +18,26 @@ export default function createUtilityButtons() {
   btnCopy.classList.add('visualFilters__btn', 'btn');
 
   btnCopy.innerText = 'Copy search string';
+  btnCopy.addEventListener('click', () => btnCopyClicked());
 
-  const btnCollumn = document.createElement('div');
-  btnCollumn.id = 'column';
-  btnCollumn.classList.add('visualFilters__btn', 'btn');
+  const btnColumn = document.createElement('div');
+  btnColumn.id = 'column';
+  btnColumn.classList.add('visualFilters__btn', 'btn', 'btn-direction');
 
-  btnCollumn.innerText = 'Column direction';
+  btnColumn.innerText = 'Column direction';
+  btnColumn.addEventListener('click', () => btnRowColumnClicked('column'));
 
   const btnRow = document.createElement('div');
   btnRow.id = 'row';
-  btnRow.classList.add('visualFilters__btn', 'btn');
+  btnRow.classList.add('visualFilters__btn', 'btn', 'btn-direction');
 
   btnRow.innerText = 'Row direction';
+  btnRow.addEventListener('click', () => btnRowColumnClicked('row'));
 
   wrapper.append(
     btnReset,
     btnCopy,
-    btnCollumn,
+    btnColumn,
     btnRow,
   );
 

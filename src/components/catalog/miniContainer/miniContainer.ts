@@ -5,7 +5,7 @@ export default function createMiniContainer(cart: Cart) {
   const wrapper = document.createElement('div');
 
   wrapper.id = 'main_container_mini';
-  wrapper.classList.add('main_container_mini');
+  wrapper.classList.add('main_container_mini', 'main_container_mini-row');
 
   const currentURL = new URL(location.href);
 
@@ -19,7 +19,6 @@ export default function createMiniContainer(cart: Cart) {
       return;
     }
 
-    // TODO: change it to router
     if (target.id === 'details') {
       currentURL.search = '';
 

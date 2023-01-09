@@ -22,7 +22,7 @@ export default function createHeader(cart: Cart) {
   btnCatalog.addEventListener('click', (event: Event) => {
     history.pushState(null, null, ``);
 
-    //document.getElementsByClassName('main')[0].replaceChildren(catalog(cart));
+    // document.getElementsByClassName('main')[0].replaceChildren(catalog(cart));
   });
 
   const btnCart = document.createElement('div');
