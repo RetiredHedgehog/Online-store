@@ -4,7 +4,6 @@
 }
 
 .description-container__heading {
-  border-bottom: 1px solid var(--main-border-color);
 }
 
 .description-container__heading,
@@ -13,5 +12,4 @@
 }
 .details-container__container{
   margin: .5rem;
-  border: 1px solid var(--main-border-color);
 }

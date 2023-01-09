@@ -10,7 +10,7 @@ export default function createSummary(cart: Cart) {
 
   const ammount = document.createElement('p');
   ammount.classList.add('info-container__ammount');
-  ammount.innerText = `Products: ${cart.length}`;
+  ammount.innerText = `Products: ${cart.count}`;
 
   const total = document.createElement('p');
   total.classList.add('info-container__total');

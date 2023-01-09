@@ -1,6 +1,7 @@
 import Cart from "classes/Cart";
 import createCart from "../cart/cart";
 import catalog from "../catalog/catalog";
+import updateSummary from "../cart/itemsBlock/item/price/updateSummary";
 export function cartCurrentValue(a:boolean) {
   const btn = document.getElementById('btnCart')
   let current = +btn.innerHTML
@@ -37,11 +38,11 @@ export default function createHeader(cart: Cart) {
     //document.getElementsByClassName('main')[0].replaceChildren(catalog(cart));
     catalog(cart)
   });
-
+  
   const btnCart = document.createElement('div');
   btnCart.classList.add('header__cart-btn', 'btn');
   btnCart.id = 'btnCart'
-
+  btnCart.innerHTML = `${cart.count}`
   btnCart.addEventListener('click', (event: Event) => {
     const currentURL = new URL(location.href);
     currentURL.search = '';
@@ -50,9 +51,10 @@ export default function createHeader(cart: Cart) {
 
     document.getElementsByClassName('main')[0].replaceChildren(createCart(cart));
   });
-
+  
   header.prepend(btnCatalog);
   header.append(btnCart);
 
   return header;
 }
+
