@@ -8,6 +8,8 @@ function toggleCart(event: Event, cart: Cart, id: number) {
     cart.removeItembyId(id);
     target.innerText = 'add to cart'.toUpperCase();
     (<HTMLElement>document.getElementsByClassName('header__cart-btn')[0]).innerText = `${cart.count}`;
+    (<HTMLElement>document.getElementsByClassName('totalPrice')[0]).innerText = `${cart.total}$`;
+
     target.classList.add('add');
     target.classList.remove('remove');
 
@@ -18,6 +20,7 @@ function toggleCart(event: Event, cart: Cart, id: number) {
     cart.addItem(id);
     target.innerText = 'remove from cart'.toUpperCase();
     (<HTMLElement>document.getElementsByClassName('header__cart-btn')[0]).innerText = `${cart.count}`;
+    (<HTMLElement>document.getElementsByClassName('totalPrice')[0]).innerText = `${cart.total}$`;
     target.classList.add('remove');
     target.classList.remove('add');
 

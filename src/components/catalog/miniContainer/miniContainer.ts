@@ -17,6 +17,7 @@ export default function createMiniContainer(cart: Cart) {
     if (target.id === 'addToCart')  {
       cart.addItem(productId);
       (<HTMLElement>document.getElementsByClassName('header__cart-btn')[0]).innerText = `${cart.count}`;
+      (<HTMLElement>document.getElementsByClassName('totalPrice')[0]).innerText = `${cart.total}$`;
       return;
     }
 
