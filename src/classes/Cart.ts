@@ -56,6 +56,9 @@ export default class Cart {
   flush() {
     this.products.length = 0;
 
+    (<HTMLElement>document.getElementsByClassName('header__cart-btn')[0])!.innerText = `${0}`;
+    (<HTMLElement>document.getElementsByClassName('totalPrice')[0])!.innerText = `${0}$`;
+
     window.localStorage.setItem('products', JSON.stringify(this.products));
   }
 
