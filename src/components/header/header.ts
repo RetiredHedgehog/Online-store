@@ -1,5 +1,6 @@
 import Cart from "classes/Cart";
 import createCart from "../cart/cart";
+import catalog from "../catalog/catalog";
 
 export default function createHeader(cart: Cart) {
   const header = document.createElement('header');
@@ -20,16 +21,20 @@ export default function createHeader(cart: Cart) {
   btnCatalog.classList.add('header__logo-btn', 'btn');
 
   btnCatalog.addEventListener('click', (event: Event) => {
-    history.pushState(null, null, ``);
+    history.pushState(null, null, `/`);
 
-    // document.getElementsByClassName('main')[0].replaceChildren(catalog(cart));
+    //document.getElementsByClassName('main')[0].replaceChildren(catalog(cart));
+    catalog(cart)
   });
 
   const btnCart = document.createElement('div');
   btnCart.classList.add('header__cart-btn', 'btn');
 
   btnCart.addEventListener('click', (event: Event) => {
-    history.pushState(null, null, `#/cart`);
+    const currentURL = new URL(location.href);
+    currentURL.search = '';
+
+    history.pushState(null, null, `${currentURL.origin}#/cart`);
 
     document.getElementsByClassName('main')[0].replaceChildren(createCart(cart));
   });

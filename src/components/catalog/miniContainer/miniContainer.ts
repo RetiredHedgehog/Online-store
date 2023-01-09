@@ -22,7 +22,7 @@ export default function createMiniContainer(cart: Cart) {
     if (target.id === 'details') {
       currentURL.search = '';
 
-      window.history.pushState(null, null, `${currentURL}#/products/${productId}`);
+      window.history.pushState(null, null, `${currentURL.origin}#/products/${productId}`);
 
       document.getElementsByClassName('main')[0].replaceChildren(createProduct(cart));
       return;
