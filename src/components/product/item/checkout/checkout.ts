@@ -1,12 +1,13 @@
 import Cart from "classes/Cart";
 import productItem from "interfaces/productsItem";
+import { cartCurrentValue } from "@/components/header/header";
 
 function toggleCart(event: Event, cart: Cart, id: number) {
   const target = event.currentTarget as HTMLElement;
 
   if (target.classList.contains('remove')) {
     cart.removeItembyId(id);
-
+    cartCurrentValue(false)
     target.innerText = 'add to cart'.toUpperCase();
 
     target.classList.add('add');
@@ -17,7 +18,7 @@ function toggleCart(event: Event, cart: Cart, id: number) {
 
   if (target.classList.contains('add')) {
     cart.addItem(id);
-
+    cartCurrentValue(true)
     target.innerText = 'remove from cart'.toUpperCase();
 
     target.classList.add('remove');

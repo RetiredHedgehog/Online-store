@@ -1,5 +1,6 @@
 import createProduct from "@/components/product/product";
 import Cart from "classes/Cart";
+import { cartCurrentValue } from "@/components/header/header";
 
 export default function createMiniContainer(cart: Cart) {
   const wrapper = document.createElement('div');
@@ -15,6 +16,7 @@ export default function createMiniContainer(cart: Cart) {
     const productId = parseInt(element.dataset.id);
 
     if (target.id === 'addToCart')  {
+      cartCurrentValue(true)
       cart.addItem(productId);
       return;
     }

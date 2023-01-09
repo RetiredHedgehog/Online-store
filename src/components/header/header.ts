@@ -1,6 +1,17 @@
 import Cart from "classes/Cart";
 import createCart from "../cart/cart";
 import catalog from "../catalog/catalog";
+export function cartCurrentValue(a:boolean) {
+  const btn = document.getElementById('btnCart')
+  let current = +btn.innerHTML
+  if(a === true) {
+  current++;
+  btn.innerHTML = `${current}`
+  } else if ( a === false) {
+  current--;
+  btn.innerHTML = `${current}`
+  }
+  }
 
 export default function createHeader(cart: Cart) {
   const header = document.createElement('header');
@@ -29,6 +40,7 @@ export default function createHeader(cart: Cart) {
 
   const btnCart = document.createElement('div');
   btnCart.classList.add('header__cart-btn', 'btn');
+  btnCart.id = 'btnCart'
 
   btnCart.addEventListener('click', (event: Event) => {
     const currentURL = new URL(location.href);

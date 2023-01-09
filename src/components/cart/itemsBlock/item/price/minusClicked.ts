@@ -3,11 +3,12 @@ import Cart from "classes/Cart";
 import updateAmmount from "./updateAmmount";
 import updatePrice from "./updatePrice";
 import updateSummary from "./updateSummary";
+import { cartCurrentValue } from "@/components/header/header";
 
 export default function minusClicked(event: Event, cart: Cart) {
   const target = event.target as HTMLElement;
   const wrapper = target.closest('.items-container__item') as HTMLElement | null;
-
+  cartCurrentValue(false)
   const indexElement = wrapper.firstChild as HTMLElement;
   const index = parseInt(indexElement.innerText) - 1;
 
