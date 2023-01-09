@@ -31,7 +31,6 @@ import './styles/Main.css';
     const hash = (new URL(location.href)).hash.slice(2);
 
     const route = Object.entries(routes).find(([key, value]) => {
-      console.log(hash,key,hash.includes(key))
       if (hash.match(new RegExp(key))) {
         return value;
       }
