@@ -19,7 +19,7 @@ export default function createCart(cart: Cart) {
   wrapper.append(
     wrapperTitle,
     createItemsBlock(cart),
-    createPopUp(),
+    createPopUp(cart),
   );
 
   return wrapper;

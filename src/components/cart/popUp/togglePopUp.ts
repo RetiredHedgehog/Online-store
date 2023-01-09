@@ -1,4 +1,6 @@
 export function openPopUp(event: Event) {
+  Array.from(<HTMLCollection>document.getElementsByClassName('user-input-block__error')).forEach(element => element.classList.add('disabled'));
+
   document.getElementsByClassName('popUp')[0]?.classList.remove('disabled');
 }
 

@@ -53,6 +53,12 @@ export default class Cart {
       .then(data => this.productsFetched = data.products);
   }
 
+  flush() {
+    this.products.length = 0;
+
+    window.localStorage.setItem('products', JSON.stringify(this.products));
+  }
+
   get length() {
     return this.products.length;
   }
