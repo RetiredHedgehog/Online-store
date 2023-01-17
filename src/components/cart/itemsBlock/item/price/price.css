@@ -1,0 +1,19 @@
+.item__price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  padding-left: var(--main-padding);
+}
+
+.price-container__counter {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+}
+
+.price-container__button {
+  width: 1.5rem;
+  height: 1.5rem;
+}

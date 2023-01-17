@@ -1,0 +1,7 @@
+.main-container {
+  width: 100%;
+}
+.main-container__breadcrumbs-container {
+  display: flex;
+  justify-content: space-between;
+}

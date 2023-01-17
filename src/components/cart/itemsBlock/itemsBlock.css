@@ -1,0 +1,12 @@
+@import './item/item.css';
+@import './summary/summary.css';
+
+.main-container__items-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.items-container {
+  width: 70%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}

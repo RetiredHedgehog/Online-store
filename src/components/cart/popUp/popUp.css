@@ -1,0 +1,87 @@
+.popUp {
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(0,0,0,0.6);
+}
+
+.disabled {
+  display: none !important;
+}
+
+.popUp:hover {
+  cursor: pointer;
+}
+
+.popUp__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: .5rem;
+
+  width: 80%;
+  min-height: 50%;
+  height: fit-content;
+
+  text-align: center;
+
+  background-color: var(--main-background-color);
+}
+
+.popUp__user-input-block {
+  display: flex;
+}
+
+.user-input-block__input {
+  flex: 1;
+  max-width: 50%;
+}
+
+.user-input-block__error {
+  display: block;
+  margin-left: .5rem;
+}
+
+.popUp__form {
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+  
+  height: auto;
+  width: auto;
+
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.popUp__form > *,
+.popUp__info > * {
+  margin: 0;
+  margin-top: .5rem;
+}
+
+.popUp__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.popUp__info:hover {
+  cursor: auto;
+}
+
+.user-input-block__error {
+  color: rgb(139, 32, 32);
+}
