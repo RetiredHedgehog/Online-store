@@ -29,14 +29,7 @@ export default function createSearchButtons() {
   btnFound.classList.add('found', 'burgerSearch__btn', 'btn');
   btnFound.innerText = 'found';
 
+  wrapper.append(btnPriceUp, btnPriceDown, btnStockDown, btnBrand, btnFound);
 
-  wrapper.append(
-    btnPriceUp,
-    btnPriceDown,
-    btnStockDown,
-    btnBrand,
-    btnFound,
-  );
-  
   return wrapper;
 }

@@ -1,6 +1,6 @@
-import catalog from "@/components/catalog/catalog";
-import Cart from "classes/Cart";
-import { closePopUp } from "./togglePopUp";
+import catalog from '@/components/catalog/catalog';
+import Cart from 'classes/Cart';
+import { closePopUp } from './togglePopUp';
 
 function validate(
   name: HTMLElement,
@@ -9,14 +9,20 @@ function validate(
   email: HTMLElement,
   cardNumber: HTMLElement,
   cardDate: HTMLElement,
-  cardCVV: HTMLElement,
-  ) {
+  cardCVV: HTMLElement
+) {
   let isValid = true;
 
-  const getValue = (element: HTMLElement) => (<HTMLInputElement>element.getElementsByClassName('user-input-block__input')[0]).value;
-  const showError = (element: HTMLElement) => (<HTMLParagraphElement>element.getElementsByClassName('user-input-block__error')[0]).classList.remove('disabled');
+  const getValue = (element: HTMLElement) =>
+    (<HTMLInputElement>(
+      element.getElementsByClassName('user-input-block__input')[0]
+    )).value;
+  const showError = (element: HTMLElement) =>
+    (<HTMLParagraphElement>(
+      element.getElementsByClassName('user-input-block__error')[0]
+    )).classList.remove('disabled');
 
-  const regexpName =/^([a-z]{3,} ){1,}[a-z]{3,}$/i;
+  const regexpName = /^([a-z]{3,} ){1,}[a-z]{3,}$/i;
   if (getValue(name).search(regexpName) === -1) {
     showError(name);
 
@@ -51,11 +57,11 @@ function validate(
     isValid = false;
   }
 
-  const [month, day] = getValue(cardDate).replace(/\/+/g, '/').split('/').map(Number);
-  if (
-    !(((month > 0) && (month <= 12))
-    && ((day > 0) && (day <= 31)))
-  ) {
+  const [month, day] = getValue(cardDate)
+    .replace(/\/+/g, '/')
+    .split('/')
+    .map(Number);
+  if (!(month > 0 && month <= 12 && day > 0 && day <= 31)) {
     showError(cardDate);
 
     isValid = false;
@@ -101,46 +107,37 @@ export default function createPopUp(cart: Cart) {
 
   const name = createInputBlock(
     'Name',
-    'Name must contain at least TWO words, at least THREE characters each.',
+    'Name must contain at least TWO words, at least THREE characters each.'
   );
 
   const number = createInputBlock(
     'Number',
-    'Number must start with a PLUS SIGN, contain NUMBERS ONLY and be at least NINE characters long.',
+    'Number must start with a PLUS SIGN, contain NUMBERS ONLY and be at least NINE characters long.'
   );
 
   const address = createInputBlock(
     'Address',
-    'Address must contain at least THREE words, at least FIVE characters each.',
+    'Address must contain at least THREE words, at least FIVE characters each.'
   );
 
-  const email = createInputBlock(
-    'Email',
-    'Email is not valid.',
-    );
+  const email = createInputBlock('Email', 'Email is not valid.');
 
   const formPrsonalInfo = document.createElement('div');
   formPrsonalInfo.classList.add('popUp__form');
 
-  formPrsonalInfo.append(
-    name,
-    number,
-    address,
-    email,
-  );
+  formPrsonalInfo.append(name, number, address, email);
 
-  
   const titleCard = document.createElement('h2');
   titleCard.innerText = 'Card details';
 
   const cardNumber = createInputBlock(
     'Card number',
-    'Card number must contain 16 digits.',
+    'Card number must contain 16 digits.'
   );
 
   const cardDate = createInputBlock(
     'Card expiration date (month/date)',
-    'Card number must contain FOUR digits, month must be greater than 0 and less than 12.',
+    'Card number must contain FOUR digits, month must be greater than 0 and less than 12.'
   );
 
   cardDate.addEventListener('input', (event: Event) => {
@@ -153,46 +150,35 @@ export default function createPopUp(cart: Cart) {
 
   const cardCVV = createInputBlock(
     'Card CVV',
-    'Card CVV must contain THREE digits.',
+    'Card CVV must contain THREE digits.'
   );
 
   const formCardInfo = document.createElement('div');
   formCardInfo.classList.add('popUp__form');
 
-  formCardInfo.append(
-    cardNumber,
-    cardDate,
-    cardCVV,
-  );
-  
+  formCardInfo.append(cardNumber, cardDate, cardCVV);
+
   const btnSubmit = document.createElement('button');
   btnSubmit.innerText = 'Submit';
 
-  btnSubmit.addEventListener('click', (event: Event) => {
-    Array.from(<HTMLCollection>document.getElementsByClassName('user-input-block__error')).forEach(element => element.classList.add('disabled'));
+  btnSubmit.addEventListener('click', () => {
+    Array.from(
+      <HTMLCollection>document.getElementsByClassName('user-input-block__error')
+    ).forEach((element) => element.classList.add('disabled'));
 
-    if (
-      validate(
-        name,
-        number,
-        address,
-        email,
-        cardNumber,
-        cardDate,
-        cardCVV,
-      )
-      ) {
+    if (validate(name, number, address, email, cardNumber, cardDate, cardCVV)) {
       const text = document.createElement('h2');
-      text.innerText = 'Congratulations on your successful purchase! Now you will be redirected to the main page.'
+      text.innerText =
+        'Congratulations on your successful purchase! Now you will be redirected to the main page.';
 
       document.getElementsByClassName('popUp__info')[0].replaceChildren(text);
 
       cart.flush();
 
-      setTimeout(() =>{
+      setTimeout(() => {
         history.pushState(null, null, `/`);
-  
-        catalog(cart)
+
+        catalog(cart);
       }, 3000);
     }
   });
@@ -202,7 +188,7 @@ export default function createPopUp(cart: Cart) {
     formPrsonalInfo,
     titleCard,
     formCardInfo,
-    btnSubmit,
+    btnSubmit
   );
 
   wrapper.append(wrapperInfo);

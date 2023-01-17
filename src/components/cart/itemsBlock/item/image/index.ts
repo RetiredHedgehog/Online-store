@@ -1,4 +1,4 @@
-import productItem from "interfaces/productsItem";
+import productItem from 'interfaces/productsItem';
 
 export default function createImage(item: productItem) {
   const image = document.createElement('img');

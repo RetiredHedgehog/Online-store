@@ -8,13 +8,19 @@ function changeImage(e: Event) {
     return;
   }
 
-  const activePhotosArray: Element[] = Array.from(document.getElementsByClassName('gallery-container__image--active'));
+  const activePhotosArray: Element[] = Array.from(
+    document.getElementsByClassName('gallery-container__image--active')
+  );
 
-  activePhotosArray.forEach((photo) => photo.classList.remove('gallery-container__image--active'));
+  activePhotosArray.forEach((photo) =>
+    photo.classList.remove('gallery-container__image--active')
+  );
 
   target.classList.add('gallery-container__image--active');
 
-  const bigImageElement = document.getElementsByClassName('big-image-container__image')[0] as HTMLImageElement;
+  const bigImageElement = document.getElementsByClassName(
+    'big-image-container__image'
+  )[0] as HTMLImageElement;
   bigImageElement.src = target.src;
 }
 
@@ -22,28 +28,26 @@ function asyncFillPhotoWrapper(root: Element, urls: string[]) {
   function wrapImages(photos: string[]) {
     return photos.map((url: string, index: number) => {
       const img = document.createElement('img');
-  
+
       img.classList.add('gallery-container__image');
-  
+
       if (index === 0) {
         img.classList.add('gallery-container__image--active');
       }
-  
+
       img.alt = `item small image ${index}`;
       img.src = url;
-  
+
       return img;
-    })
+    });
   }
 
   const stack: string[] = [];
   const urlsUnique: string[] = [];
 
-  Promise.all(urls.map(url => fetch(url)))
-    .then(data =>
-      data.map(elem => elem.headers.get("content-length"))
-    )
-    .then(sizes => {
+  Promise.all(urls.map((url) => fetch(url)))
+    .then((data) => data.map((elem) => elem.headers.get('content-length')))
+    .then((sizes) => {
       if (sizes.length <= 1) {
         return urls;
       }
@@ -57,7 +61,7 @@ function asyncFillPhotoWrapper(root: Element, urls: string[]) {
 
       return urlsUnique;
     })
-    .then(urls => root.append(...wrapImages(urls)));
+    .then((urls) => root.append(...wrapImages(urls)));
 }
 
 export default function createGallery(urls: string[]) {

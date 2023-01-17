@@ -1,15 +1,13 @@
-import Cart from "classes/Cart";
-import createFilters from "./filters/filter";
-import createMiniContainer from "./miniContainer/miniContainer";
-import createSearchButtons from "./searchButtons/searchButtons";
-import createUtilityButtons from "./utilityButtons/utilityButtons";
+import Cart from 'classes/Cart';
+import createFilters from './filters/filter';
+import createMiniContainer from './miniContainer/miniContainer';
+import createSearchButtons from './searchButtons/searchButtons';
+import createUtilityButtons from './utilityButtons/utilityButtons';
 
-import productItem from "interfaces/productsItem";
-const json = require('../../products.json');
-const products: productItem[] = json.products;
+import productItem from 'interfaces/productsItem';
 
-import resetActive from "./resetActive";
-import createItem from "./miniContainer/item/item";
+import resetActive from './resetActive';
+import createItem from './miniContainer/item/item';
 
 function createCatalog(cart: Cart) {
   const wrapper = document.createElement('div');
@@ -21,13 +19,10 @@ function createCatalog(cart: Cart) {
   wrapperCatalog.append(
     createUtilityButtons(),
     createSearchButtons(),
-    createMiniContainer(cart),
+    createMiniContainer(cart)
   );
 
-  wrapper.append(
-    createFilters(cart),
-    wrapperCatalog,
-  )
+  wrapper.append(createFilters(cart), wrapperCatalog);
 
   return wrapper;
 }
@@ -37,34 +32,35 @@ export default function catalog(cart: Cart) {
 
   const currentURL = new URL(location.href);
 
-  let newItemsArray: any = [];
-  let filterBrand: any = currentURL.searchParams.getAll('brand');
-  let filterCategory: any = currentURL.searchParams.getAll('category');
-  const inpTextFilter: any = currentURL.searchParams.get('inpText')
+  const products: productItem[] = cart.productsFetched;
 
-  let obj: any = {};
-  let objCategory: any = {};
-  let inpSearchArray: any = []
-  let inpArrSearch: any = [];
-  let input: any;
-  let arr: any;
-  let inputCategory: any;
-  let arrCategory: any;
-  let arrPrice: any = [];
-  let arrStock: any = [];
-  let mainContainerItem:any
-  let mainContainerItemArray: any
-  const itemBrandArray: any = [];
-  const itemsArray: any = [];
+  let newItemsArray: HTMLElement[] = [];
+  let filterBrand = currentURL.searchParams.getAll('brand');
+  let filterCategory = currentURL.searchParams.getAll('category');
+  const inpTextFilter = currentURL.searchParams.get('inpText');
 
-  function renderInputsBrand(array : any[]) {
-    const navContainerItemMain = document.getElementById('nav-container__main-brand');
+  type objType = {
+    [key: string]: number;
+  };
+  let obj: objType;
+  let objCategory: objType;
+  const inpSearchArray = [];
+  let inpArrSearch: string[] = [];
+  let arrPrice: number[] = [];
+  let arrStock: number[] = [];
+  const itemBrandArray: string[] = [];
+  const itemsArray: productItem[] = [];
+
+  function renderInputsBrand(array: productItem[]) {
+    const navContainerItemMain = document.getElementById(
+      'nav-container__main-brand'
+    );
     navContainerItemMain.innerHTML = '';
 
-    array.map((item: any) => {
+    array.map((item: productItem) => {
       item.name = 1;
 
-      if(itemBrandArray.indexOf(item.brand.toLowerCase()) == -1){
+      if (itemBrandArray.indexOf(item.brand.toLowerCase()) == -1) {
         itemBrandArray.push(item.brand.toLowerCase());
         itemsArray.push(item);
       } else {
@@ -74,43 +70,39 @@ export default function catalog(cart: Cart) {
 
     newProd(products, newItemsArray);
     itemBrandArrayGenerator(obj);
-
-    input = document.getElementsByClassName('inputBrand');
-
-    arr = Array.from(input);
   }
 
-  function renderInputsCategory(array : object[]) {
-    const navContainerItemMainCategory = document.getElementById('nav-container__main-category');
+  function renderInputsCategory(array: object[]) {
+    const navContainerItemMainCategory = document.getElementById(
+      'nav-container__main-category'
+    );
 
     navContainerItemMainCategory.innerHTML = '';
-    const itemCategoryArray: any = [];
+    const itemCategoryArray: string[] = [];
 
-    array.map((item: any) => {
-      if(itemCategoryArray.indexOf(item.category) == -1) {
+    array.map((item: productItem) => {
+      if (itemCategoryArray.indexOf(item.category) == -1) {
         itemCategoryArray.push(item.category);
       }
-    })
+    });
 
     newProd(products, newItemsArray);
     itemCategoryArrayGenerator(objCategory);
-
-    inputCategory = document.getElementsByClassName('inputCategory');
-    arrCategory = Array.from(inputCategory);
   }
 
-  function renderItems(array : productItem[] = []) {
+  function renderItems(array: productItem[] = []) {
     const mainContainerMini = document.getElementById('main_container_mini');
 
     mainContainerMini.replaceChildren(
       ...array.map((item: productItem) => createItem(item))
     );
 
-    mainContainerItem = document.getElementsByClassName('main_container_item');
-    mainContainerItemArray = Array.from(mainContainerItem);
-    mainContainerItemArray.map((item: any) => {
+    const mainContainerItemArray = Array.from(
+      document.getElementsByClassName('main_container_item')
+    ) as HTMLElement[];
+    mainContainerItemArray.forEach((item) => {
       newItemsArray.push(item);
-    })
+    });
 
     filterBrandfunc(products);
   }
@@ -119,14 +111,6 @@ export default function catalog(cart: Cart) {
   inputRangeArrayfuncStart(products);
   inputRangeArrayStockfuncStart(products);
 
-  const inputsRangeStockmin: any = document.getElementById('inputRangeMinStock');
-  const inputsRangeStockmax: any = document.getElementById('inputRangeMaxStock');
-  const inputRangeMin: any = document.getElementById('inputRangeMinPrice');
-  const inputRangeMax: any = document.getElementById('inputRangeMaxPrice');
-  const inputMin: any = document.getElementById('inputMinPrice');
-  const inputMax: any = document.getElementById('inputMaxPrice');
-  const inputMinStock: any = document.getElementById('inputMinStock');
-  const inputMaxStock: any = document.getElementById('inputMaxStock');
   const progress = document.getElementById('progressPrice');
   const progressStock = document.getElementById('progressStock');
 
@@ -137,21 +121,21 @@ export default function catalog(cart: Cart) {
   textInp();
   filterRenderSearch();
 
-  ;(function filterRenderSearchRowCol() {
-    const url = new URL(location.href)
+  (function filterRenderSearchRowCol() {
+    const url = new URL(location.href);
 
     const flexDirection = url.searchParams.get('flexDirection') || 'row';
     const mainContainerMini = document.getElementById('main_container_mini');
 
     mainContainerMini.classList.remove('main_container_mini-column');
     mainContainerMini.classList.remove('main_container_mini-row');
-  
+
     mainContainerMini.classList.add(`main_container_mini-${flexDirection}`);
 
     document.getElementById(flexDirection).classList.add('active');
   })();
 
-  ;(function renderRowColumn() {
+  (function renderRowColumn() {
     const mainContainerMini = document.getElementById('main_container_mini');
     const url = new URL(location.href);
 
@@ -163,7 +147,7 @@ export default function catalog(cart: Cart) {
     mainContainerMini.classList.add(`main_container_mini-${direction}`);
   })();
 
-  ;(function resetButton() { 
+  (function resetButton() {
     const resetFilt = document.getElementById('resetFilt');
 
     resetFilt.addEventListener('click', () => {
@@ -178,13 +162,25 @@ export default function catalog(cart: Cart) {
     });
   })();
 
-  function sliderAddListeners(className: 'Price' | 'Stock', gap: number = 10, cart: Cart) {
-    const arrayInputs = Array.from(document.getElementsByClassName(`inputs${className}`)) as HTMLInputElement[];
+  function sliderAddListeners(
+    className: 'Price' | 'Stock',
+    gap = 10,
+    cart: Cart
+  ) {
+    const arrayInputs = Array.from(
+      document.getElementsByClassName(`inputs${className}`)
+    ) as HTMLInputElement[];
 
     arrayInputs.forEach((input, index, array) => {
-      const inputMin = document.getElementById(`inputMin${className}`) as HTMLInputElement;
-      const inputMax = document.getElementById(`inputMax${className}`) as HTMLInputElement;
-      const progress = document.getElementById(`progress${className}`) as HTMLElement;
+      const inputMin = document.getElementById(
+        `inputMin${className}`
+      ) as HTMLInputElement;
+      const inputMax = document.getElementById(
+        `inputMax${className}`
+      ) as HTMLInputElement;
+      const progress = document.getElementById(
+        `progress${className}`
+      ) as HTMLElement;
 
       input.addEventListener('input', (event: Event) => {
         const min = parseInt(array[0].value);
@@ -193,8 +189,10 @@ export default function catalog(cart: Cart) {
         inputMin.value = min.toString();
         inputMax.value = max.toString();
 
-        if(max - min < gap) {
-          if ((<HTMLElement>event.target).matches(`.range-min.inputs${className}`)) {
+        if (max - min < gap) {
+          if (
+            (<HTMLElement>event.target).matches(`.range-min.inputs${className}`)
+          ) {
             const value = (max - gap).toString();
 
             array[0].value = value;
@@ -207,18 +205,23 @@ export default function catalog(cart: Cart) {
           }
         } else {
           progress.style.left = `${(min / parseInt(array[0].max)) * 100}%`;
-          progress.style.right = `${100 - (max / parseInt(array[1].max)) * 100}%`;
-          progress.style.width =`${Math.abs(parseFloat(progress.style.left) - (100 - parseFloat(progress.style.right)))}%`;
+          progress.style.right = `${
+            100 - (max / parseInt(array[1].max)) * 100
+          }%`;
+          progress.style.width = `${Math.abs(
+            parseFloat(progress.style.left) -
+              (100 - parseFloat(progress.style.right))
+          )}%`;
         }
       });
 
-      input.addEventListener('change', (event: Event) => {
+      input.addEventListener('change', () => {
         currentURL.searchParams.delete('price');
-        currentURL.searchParams.append('price' , inputMin.value);
-        currentURL.searchParams.append('price' , inputMax.value);
+        currentURL.searchParams.append('price', inputMin.value);
+        currentURL.searchParams.append('price', inputMax.value);
         window.history.replaceState(null, null, currentURL);
 
-        (className === 'Price')
+        className === 'Price'
           ? inputRangeArrayfunc(cart.productsFetched)
           : inputRangeStockArrayfunc(cart.productsFetched);
 
@@ -227,68 +230,84 @@ export default function catalog(cart: Cart) {
     });
   }
 
-  function inputRangeArrayfunc(array: any) {
+  function inputRangeArrayfunc(array: productItem[]) {
     arrPrice = [];
-    array.map((item: any) => {
-      if(item.price <= +inputMax.value && item.price >= +inputMin.value){
+
+    const inputMin = document.getElementById(
+      'inputMinPrice'
+    ) as HTMLInputElement;
+    const inputMax = document.getElementById(
+      'inputMaxPrice'
+    ) as HTMLInputElement;
+
+    array.map((item: productItem) => {
+      if (item.price <= +inputMax.value && item.price >= +inputMin.value) {
         arrPrice.push(item.price);
       }
-    })
-    arrPrice.sort((a: number, b: number) => (a > b) ? 1 : -1);
+    });
+    arrPrice.sort((a: number, b: number) => (a > b ? 1 : -1));
   }
 
-  function inputRangeStockArrayfunc(array: any) {
+  function inputRangeStockArrayfunc(array: productItem[]) {
     arrStock = [];
-    array.map((item: any) => {
-      if(item.stock <= +inputMaxStock.value && item.stock >= +inputMinStock.value){
+    array.map((item: productItem) => {
+      if (
+        item.stock <= +inputMaxStock.value &&
+        item.stock >= +inputMinStock.value
+      ) {
         arrStock.push(item.stock);
       }
-    })
-    arrStock.sort((a: number, b: number) => (a > b) ? 1 : -1);
+    });
+    arrStock.sort((a: number, b: number) => (a > b ? 1 : -1));
   }
 
   sliderAddListeners('Price', 100, cart);
   sliderAddListeners('Stock', 10, cart);
 
-  const rangeInputPrice = Array.from(document.getElementsByClassName(`inputsPrice`)) as HTMLInputElement[];
+  const rangeInputPrice = Array.from(
+    document.getElementsByClassName(`inputsPrice`)
+  ) as HTMLInputElement[];
 
   RangeWidth(arrPrice);
   RangeWidthStock(arrStock);
 
-  function RangeWidth(arrPrice: any) {
+  function RangeWidth(arrPrice: number[]) {
     const url = new URL(location.href);
     const price = url.searchParams.getAll('price');
 
     if (price.length !== 0) {
-      progress.style.left =(+price[0] / +rangeInputPrice[0].max) * 100 + '%';
-      progress.style.right =(+price[1] / 1749) * 100 + '%' ;
-      progress.style.width =(+price[1] - +price[0]) / 17.49 + '%';
+      progress.style.left = (+price[0] / +rangeInputPrice[0].max) * 100 + '%';
+      progress.style.right = (+price[1] / 1749) * 100 + '%';
+      progress.style.width = (+price[1] - +price[0]) / 17.49 + '%';
     } else {
       progress.style.left = (arrPrice[0] / +rangeInputPrice[0].max) * 100 + '%';
-      progress.style.right =(arrPrice[arrPrice.length - 1] / 1749) * 100 + '%';
-      progress.style.width =(arrPrice[arrPrice.length - 1] - arrPrice[0])/ 17.49 + '%';
+      progress.style.right = (arrPrice[arrPrice.length - 1] / 1749) * 100 + '%';
+      progress.style.width =
+        (arrPrice[arrPrice.length - 1] - arrPrice[0]) / 17.49 + '%';
     }
   }
 
-  function RangeWidthStock(arrPrice: any) {
-    const url = new URL(location.href)
+  function RangeWidthStock(arrPrice: number[]) {
+    const url = new URL(location.href);
     const stock = url.searchParams.getAll('stock');
 
     if (stock.length !== 0) {
-      progressStock.style.left =(+stock[0] / 150) * 100 + '%';
-      progressStock.style.right =(1 - (+stock[1] / 150)) * 100 + '%';
+      progressStock.style.left = (+stock[0] / 150) * 100 + '%';
+      progressStock.style.right = (1 - +stock[1] / 150) * 100 + '%';
       progressStock.style.width = (+stock[1] - +stock[0]) / 1.5 + '%';
     } else {
-      progressStock.style.left =(arrPrice[0] / 150) * 100 + '%';
-      progressStock.style.right =(1 - (arrPrice[arrPrice.length - 1] / 150)) * 100 + '%';
-      progressStock.style.width =(arrPrice[arrPrice.length - 1] - arrPrice[0])/ 1.5 + '%';
+      progressStock.style.left = (arrPrice[0] / 150) * 100 + '%';
+      progressStock.style.right =
+        (1 - arrPrice[arrPrice.length - 1] / 150) * 100 + '%';
+      progressStock.style.width =
+        (arrPrice[arrPrice.length - 1] - arrPrice[0]) / 1.5 + '%';
     }
   }
 
   let inpSearchText: string;
-  const inpSearch: any  = document.getElementById('search');
+  const inpSearch = document.getElementById('search') as HTMLInputElement;
 
-  inpSearch.oninput = function() {
+  inpSearch.oninput = function () {
     inpArrSearch = [];
     inpSearchText = inpSearch.value;
     inpSearchText = inpSearchText.toLowerCase();
@@ -298,18 +317,18 @@ export default function catalog(cart: Cart) {
 
     window.history.replaceState(null, null, currentURL);
 
-    search(inpSearchText,products);
+    search(inpSearchText, products);
     searchFilter();
   };
 
-  function search(text: string, arr: any) {
-    arr.map((item: any) => {
+  function search(text: string, arr: productItem[]) {
+    arr.map((item) => {
       if (
-        item.brand.toLowerCase().indexOf(text) > -1
-        || item.category.toLowerCase().indexOf(text) > -1
-        || item.title.toLowerCase().indexOf(text) > -1
-        || item.price.toString().indexOf(text) > -1
-        || item.stock.toString().indexOf(text) > -1
+        item.brand.toLowerCase().indexOf(text) > -1 ||
+        item.category.toLowerCase().indexOf(text) > -1 ||
+        item.title.toLowerCase().indexOf(text) > -1 ||
+        item.price.toString().indexOf(text) > -1 ||
+        item.stock.toString().indexOf(text) > -1
       ) {
         inpArrSearch.push(item.title.toLowerCase());
         inpSearchArray.push(item);
@@ -317,28 +336,39 @@ export default function catalog(cart: Cart) {
     });
   }
 
-  function inputRangeArrayfuncStart(array: any) {
-    array.map((item: any) => {
+  function inputRangeArrayfuncStart(array: productItem[]) {
+    array.map((item) => {
       arrPrice.push(item.price);
-    })
-    arrPrice.sort((a: number, b: number) => (a > b) ? 1 : -1);
+    });
+    arrPrice.sort((a: number, b: number) => (a > b ? 1 : -1));
   }
 
-  function inputRangeArrayStockfuncStart(array: any) {
-    array.map((item: any) => {
+  function inputRangeArrayStockfuncStart(array: productItem[]) {
+    array.map((item) => {
       arrStock.push(item.stock);
-    })
-    arrStock.sort((a: number, b: number) => (a > b) ? 1 : -1);
+    });
+    arrStock.sort((a: number, b: number) => (a > b ? 1 : -1));
   }
 
-  arr.map((item: any) => 
+  const inputMinStock = document.getElementById(
+    'inputMinStock'
+  ) as HTMLInputElement;
+  const inputMaxStock = document.getElementById(
+    'inputMaxStock'
+  ) as HTMLInputElement;
+
+  const arrInputBrand = Array.from(
+    document.getElementsByClassName('inputBrand')
+  ) as HTMLInputElement[];
+
+  arrInputBrand.map((item: HTMLInputElement) =>
     item.addEventListener('click', () => {
       if (item.checked === true) {
         filterBrand.push(item.defaultValue.toLowerCase());
       } else {
         filterBrand.splice(filterBrand.indexOf(item.defaultValue), 1);
 
-        if(filterBrand.length === 0) {
+        if (filterBrand.length === 0) {
           renderItems(products);
         }
       }
@@ -346,7 +376,7 @@ export default function catalog(cart: Cart) {
       currentURL.searchParams.delete('brand');
 
       for (const brand of filterBrand) {
-        currentURL.searchParams.append('brand' , brand);
+        currentURL.searchParams.append('brand', brand);
       }
 
       window.history.replaceState(null, null, currentURL);
@@ -354,15 +384,19 @@ export default function catalog(cart: Cart) {
       filterBrandfunc(products);
 
       currentURL.searchParams.delete('stock');
-      currentURL.searchParams.append('stock' , inputMinStock.value);
-      currentURL.searchParams.append('stock' , inputMaxStock.value);
+      currentURL.searchParams.append('stock', inputMinStock.value);
+      currentURL.searchParams.append('stock', inputMaxStock.value);
       window.history.replaceState(null, null, currentURL);
     })
   );
 
-  arrCategory.map((item: any) => 
+  const arrCategory = Array.from(
+    document.getElementsByClassName('inputCategory')
+  ) as HTMLInputElement[];
+
+  arrCategory.map((item) =>
     item.addEventListener('click', () => {
-      if (item.checked === true){
+      if (item.checked === true) {
         filterCategory.push(item.defaultValue);
       } else {
         filterCategory.splice(filterCategory.indexOf(item.defaultValue), 1);
@@ -375,7 +409,7 @@ export default function catalog(cart: Cart) {
       currentURL.searchParams.delete('category');
 
       for (const category of filterCategory) {
-        currentURL.searchParams.append('category' , category);
+        currentURL.searchParams.append('category', category);
       }
 
       window.history.replaceState(null, null, currentURL);
@@ -384,18 +418,22 @@ export default function catalog(cart: Cart) {
     })
   );
 
-  function filterBrandfunc(array : object[])  {
+  function filterBrandfunc(array: object[]) {
     newItemsArray = [];
 
-    mainContainerItemArray.forEach((item: any) => {
-      let arr = item.attributes[1].nodeValue.split(';');
+    const mainContainerItemArray = Array.from(
+      document.getElementsByClassName('main_container_item')
+    ) as HTMLElement[];
+
+    mainContainerItemArray.forEach((item) => {
+      const arr = item.attributes[1].nodeValue.split(';');
 
       if (
-        (filterBrand.indexOf(arr[0]) > -1 || filterBrand.length === 0)
-        && (filterCategory.indexOf(arr[1]) > -1 || filterCategory.length === 0)
-        && (arrPrice.indexOf(+arr[2]) > -1 || arrPrice.length === 0)
-        && (arrStock.indexOf(+arr[3]) > -1 || arrStock.length === 0)
-        && (inpArrSearch.indexOf(arr[4]) > -1 || inpArrSearch.length ===0)
+        (filterBrand.indexOf(arr[0]) > -1 || filterBrand.length === 0) &&
+        (filterCategory.indexOf(arr[1]) > -1 || filterCategory.length === 0) &&
+        (arrPrice.indexOf(+arr[2]) > -1 || arrPrice.length === 0) &&
+        (arrStock.indexOf(+arr[3]) > -1 || arrStock.length === 0) &&
+        (inpArrSearch.indexOf(arr[4]) > -1 || inpArrSearch.length === 0)
       ) {
         newItemsArray.push(item);
         item.style.display = '';
@@ -410,12 +448,16 @@ export default function catalog(cart: Cart) {
   function searchFilter() {
     newItemsArray = [];
 
-    mainContainerItemArray.forEach((item: any) => {
+    const mainContainerItemArray = Array.from(
+      document.getElementsByClassName('main_container_item')
+    ) as HTMLElement[];
+
+    mainContainerItemArray.forEach((item) => {
       item.style.display = 'none';
 
       const arr = item.attributes[1].nodeValue.split(';');
 
-      inpArrSearch.forEach((item1: any) => {
+      inpArrSearch.forEach((item1) => {
         if (item1.toLowerCase() == arr[4].toLowerCase()) {
           item.style.display = '';
           newItemsArray.push(item);
@@ -426,20 +468,19 @@ export default function catalog(cart: Cart) {
     newProd(products, newItemsArray);
   }
 
-
-  function newProd (arr: any , arr2: any) {
+  function newProd(arr: productItem[], arr2: HTMLElement[]) {
     obj = {};
     objCategory = {};
 
-    arr.map((item: any) => {
-      let key = item.brand.toLowerCase();
-      let keyCat = item.category.toLowerCase();
+    arr.forEach((item) => {
+      const key = item.brand.toLowerCase();
+      const keyCat = item.category.toLowerCase();
 
       obj[key] = obj[key] || 0;
       objCategory[keyCat] = objCategory[keyCat] || 0;
 
-      arr2.map((item2: any) => {
-        let value = item2.attributes[1].value.split(';');
+      arr2.forEach((item2) => {
+        const value = item2.attributes[1].value.split(';');
 
         if (item.title.toLowerCase() === value[4].toLowerCase()) {
           obj[key] += 1;
@@ -448,6 +489,7 @@ export default function catalog(cart: Cart) {
       });
     });
 
+    console.log(obj, objCategory);
     const found = document.getElementById('found');
 
     if (found) {
@@ -462,22 +504,25 @@ export default function catalog(cart: Cart) {
 
   function amount(key: string) {
     type objType = {
-      [key: string]: number
-    }
+      [key: string]: number;
+    };
 
     const obj: objType = {};
 
-    products.forEach((item: any) => {
-      obj[item[key].toLowerCase()] = obj[item[key].toLowerCase()] + 1 || 1;
+    products.forEach((item: productItem) => {
+      obj[`${item[key as keyof productItem]}`.toLowerCase()] =
+        obj[`${item[key as keyof productItem]}`.toLowerCase()] + 1 || 1;
     });
 
     return obj;
   }
 
-  function itemBrandArrayGenerator(obj: any) {
+  function itemBrandArrayGenerator(obj: objType) {
     const url = new URL(location.href);
     const brand = url.searchParams.getAll('brand');
-    const navContainerItemMain = document.getElementById('nav-container__main-brand');
+    const navContainerItemMain = document.getElementById(
+      'nav-container__main-brand'
+    );
 
     navContainerItemMain.innerHTML = '';
 
@@ -485,12 +530,14 @@ export default function catalog(cart: Cart) {
 
     for (const k in obj) {
       navContainerItemMain.innerHTML += `
-      <div class="inputCheckbox">
-        <input class="inputBrand inputCheckbox__checkbox" type="checkbox" name=""  value="${k}" ${brand.includes(k) ? 'checked' : ''}>
-        <label  for="inputBrand">
+      <div class='inputCheckbox'>
+        <input class='inputBrand inputCheckbox__checkbox' type='checkbox' name=''  value='${k}' ${
+        brand.includes(k) ? 'checked' : ''
+      }>
+        <label  for='inputBrand'>
           ${k}
-          <label class="inputBrandCurrentValue">
-            ${obj[k]}
+          <label class='inputBrandCurrentValue'>
+            ${obj[k as keyof productItem]}
           </label>
           /${amountBrand[k]}
         </label>
@@ -500,159 +547,194 @@ export default function catalog(cart: Cart) {
     inputBrandCurrentValueInnerHTML(obj);
   }
 
-  function itemCategoryArrayGenerator(obj: any) {
-      const url = new URL(location.href)
-      const categories = url.searchParams.getAll('category');
+  function itemCategoryArrayGenerator(obj: objType) {
+    console.log(obj);
+    const url = new URL(location.href);
+    const categories = url.searchParams.getAll('category');
 
-      const navContainerItemMainCategory = document.getElementById('nav-container__main-category');
+    const navContainerItemMainCategory = document.getElementById(
+      'nav-container__main-category'
+    );
 
-      const amountCategory = amount('category');
+    const amountCategory = amount('category');
 
-      for(const k in obj) {
-        navContainerItemMainCategory.innerHTML += `
-        <div class="inputCheckbox">
-          <input  class="inputCategory inputCheckbox__checkbox" type="checkbox" name="Category"  value="${k}" ${categories.includes(k) ? 'checked' : ''}>
-          <label for="inputCategory">
+    for (const k in obj) {
+      navContainerItemMainCategory.innerHTML += `
+        <div class='inputCheckbox'>
+          <input  class='inputCategory inputCheckbox__checkbox' type='checkbox' name='Category'  value='${k}' ${
+        categories.includes(k) ? 'checked' : ''
+      }>
+          <label for='inputCategory'>
             ${k}
-            <label class="inputCategoryCurrentValue">
-              ${obj[k]}
+            <label class='inputCategoryCurrentValue'>
+              ${obj[k as keyof productItem]}
             </label>
             /${amountCategory[k]}
           </label>
         </div>`;
-      }
+    }
 
-      inputCategoryCurrentValueInnerHTML(objCategory);
+    inputCategoryCurrentValueInnerHTML(objCategory);
   }
 
-  function inputBrandCurrentValueInnerHTML(obj: any,) {
-    let inputBrandCurrentValue: any = document.getElementsByClassName('inputBrandCurrentValue');
-
-    inputBrandCurrentValue = Array.from(inputBrandCurrentValue);
+  function inputBrandCurrentValueInnerHTML(obj: objType) {
+    const inputBrandCurrentValue = Array.from(
+      document.getElementsByClassName('inputBrandCurrentValue')
+    );
 
     for (const k in obj) {
-      inputBrandCurrentValue.map((item: any) => {
-        let val = item.parentNode.parentNode.childNodes[1];
+      inputBrandCurrentValue.map((item) => {
+        const val = item.parentNode.parentNode
+          .childNodes[1] as HTMLInputElement;
 
         if (val.value === k) {
-          item.innerHTML = obj[k];
+          item.innerHTML = `${obj[k as keyof productItem]}`;
         }
       });
     }
   }
 
-  function inputCategoryCurrentValueInnerHTML(obj: any) {
-    let inputCategoryCurrentValue: any = document.getElementsByClassName('inputCategoryCurrentValue');
-
-    inputCategoryCurrentValue = Array.from(inputCategoryCurrentValue);
+  function inputCategoryCurrentValueInnerHTML(obj: objType) {
+    const inputCategoryCurrentValue = Array.from(
+      document.getElementsByClassName('inputCategoryCurrentValue')
+    );
 
     for (const k in obj) {
-      inputCategoryCurrentValue.map((item: any) => {
-        let val = item.parentNode.parentNode.childNodes[1];
+      inputCategoryCurrentValue.map((item) => {
+        const val = item.parentNode.parentNode
+          .childNodes[1] as HTMLInputElement;
 
         if (val.value === k) {
-          item.innerHTML = obj[k];
+          item.innerHTML = `${obj[k as keyof productItem]}`;
         }
       });
     }
   }
 
-  function inputNumberCurrentValueGenerator(arr: any) {
-    let priceArr: any = [];
+  function inputNumberCurrentValueGenerator(arr: HTMLElement[]) {
+    const priceArr: number[] = arr.map(
+      (item) => +item.attributes[1].value.split(';')[2]
+    );
 
-    arr.map((item: any) => {
-      let value = item.attributes[1].value.split(';');
+    priceArr.sort((a: number, b: number) => (a > b ? 1 : -1));
 
-      priceArr.push(+value[2]);
-    });
+    const inputMin = document.getElementById(
+      'inputMinPrice'
+    ) as HTMLInputElement;
+    const inputMax = document.getElementById(
+      'inputMaxPrice'
+    ) as HTMLInputElement;
+    const inputRangeMin = document.getElementById(
+      'inputRangeMinPrice'
+    ) as HTMLInputElement;
+    const inputRangeMax = document.getElementById(
+      'inputRangeMaxPrice'
+    ) as HTMLInputElement;
 
-    priceArr.sort((a: number ,b: number ) => a > b ? 1 : -1);
-
-    inputMin.value = priceArr[0];
-    inputMax.value = priceArr[priceArr.length - 1];
-    inputRangeMin.value = priceArr[0];;
-    inputRangeMax.value = priceArr[priceArr.length - 1];
+    inputMin.value = `${priceArr[0]}`;
+    inputMax.value = `${priceArr[priceArr.length - 1]}`;
+    inputRangeMin.value = `${priceArr[0]}`;
+    inputRangeMax.value = `${priceArr[priceArr.length - 1]}`;
 
     currentURL.searchParams.delete('price');
-    currentURL.searchParams.append('price' , inputMin.value);
-    currentURL.searchParams.append('price' , inputMax.value);
+    currentURL.searchParams.append('price', inputMin.value);
+    currentURL.searchParams.append('price', inputMax.value);
 
     window.history.replaceState(null, null, currentURL);
 
-    const url = new URL(location.href)
+    const url = new URL(location.href);
     const price = url.searchParams.getAll('price');
 
-    if ( price.length !== 0) {
-      progress.style.left =(+price[0] / 1749) * 100 + '%';
-      progress.style.right =(1 - (+price[1] / 1749)) * 100 + '%' ;
-      progress.style.width =(+price[1] - +price[0]) / 17.49 + '%';
+    if (price.length !== 0) {
+      progress.style.left = (+price[0] / 1749) * 100 + '%';
+      progress.style.right = (1 - +price[1] / 1749) * 100 + '%';
+      progress.style.width = (+price[1] - +price[0]) / 17.49 + '%';
     } else {
       progress.style.left = (priceArr[0] / 1749) * 100 + '%';
-      progress.style.right =(1 - (priceArr[priceArr.length - 1] / 1749)) * 100 + '%';
-      progress.style.width =(priceArr[priceArr.length - 1] - priceArr[0])/ 17.49 + '%';
+      progress.style.right =
+        (1 - priceArr[priceArr.length - 1] / 1749) * 100 + '%';
+      progress.style.width =
+        (priceArr[priceArr.length - 1] - priceArr[0]) / 17.49 + '%';
     }
   }
 
-  function inputNumberCurrentStockValueGenerator(arr: any) {
-    let priceArr: any = [];
+  function inputNumberCurrentStockValueGenerator(arr: HTMLElement[]) {
+    const priceArr: number[] = arr.map(
+      (item) => +item.attributes[1].value.split(';')[3]
+    );
 
-    arr.map((item: any) => {
-      let value = item.attributes[1].value.split(';');
-      priceArr.push(+value[3]);
-    });
+    priceArr.sort((a: number, b: number) => (a > b ? 1 : -1));
 
-    priceArr.sort((a: number ,b: number ) => a > b ? 1 : -1);
+    const inputMinStock = document.getElementById(
+      'inputMinStock'
+    ) as HTMLInputElement;
+    const inputMaxStock = document.getElementById(
+      'inputMaxStock'
+    ) as HTMLInputElement;
+    const inputsRangeStockmin = document.getElementById(
+      'inputRangeMinStock'
+    ) as HTMLInputElement;
+    const inputsRangeStockmax = document.getElementById(
+      'inputRangeMaxStock'
+    ) as HTMLInputElement;
 
-    inputMinStock.value =priceArr[0];
-    inputMaxStock.value =priceArr[priceArr.length - 1];
-    inputsRangeStockmin.value = priceArr[0];
-    inputsRangeStockmax.value =priceArr[priceArr.length - 1];
+    inputMinStock.value = `${priceArr[0]}`;
+    inputMaxStock.value = `${priceArr[priceArr.length - 1]}`;
+    inputsRangeStockmin.value = `${priceArr[0]}`;
+    inputsRangeStockmax.value = `${priceArr[priceArr.length - 1]}`;
 
     currentURL.searchParams.delete('stock');
-    currentURL.searchParams.append('stock' , inputMinStock.value);
-    currentURL.searchParams.append('stock' , inputMaxStock.value);
+    currentURL.searchParams.append('stock', inputMinStock.value);
+    currentURL.searchParams.append('stock', inputMaxStock.value);
 
     window.history.replaceState(null, null, currentURL);
 
     const url = new URL(location.href);
     const stock = url.searchParams.getAll('stock');
 
-    if ( stock.length !== 0) {
-      progressStock.style.left =(+stock[0] / 150) * 100 + '%';
-      progressStock.style.right =(1 - (+stock[1] / 150)) * 100 + '%';
+    if (stock.length !== 0) {
+      progressStock.style.left = (+stock[0] / 150) * 100 + '%';
+      progressStock.style.right = (1 - +stock[1] / 150) * 100 + '%';
       progressStock.style.width = (+stock[1] - +stock[0]) / 1.5 + '%';
     } else {
-      progressStock.style.left =(priceArr[0] / 150) * 100 + '%';
-      progressStock.style.right =(1 - (priceArr[priceArr.length - 1] / 150)) * 100 + '%';
-      progressStock.style.width =(priceArr[priceArr.length - 1] - priceArr[0])/ 1.5 + '%';
+      progressStock.style.left = (priceArr[0] / 150) * 100 + '%';
+      progressStock.style.right =
+        (1 - priceArr[priceArr.length - 1] / 150) * 100 + '%';
+      progressStock.style.width =
+        (priceArr[priceArr.length - 1] - priceArr[0]) / 1.5 + '%';
     }
   }
 
-  function mainContainerItemArraySort(arr: HTMLElement[], index: number, type: 'number' | 'string' , reverse: boolean = false) {
+  function mainContainerItemArraySort(
+    arr: HTMLElement[],
+    index: number,
+    type: 'number' | 'string',
+    reverse = false
+  ) {
     const split = (element: HTMLElement) => element.dataset.value.split(';');
 
     arr.sort((a: HTMLElement, b: HTMLElement) => {
-      const aValue = split(a)[index];
-      const bValue = split(b)[index];
       let answer = 0;
 
-      (type === 'number')
-        ? answer = (+split(a)[index] > +split(b)[index]) ? -1 : 1
-        : answer = (split(a)[index] > split(b)[index]) ? -1 : 1;
-      
+      type === 'number'
+        ? (answer = +split(a)[index] > +split(b)[index] ? -1 : 1)
+        : (answer = split(a)[index] > split(b)[index] ? -1 : 1);
+
       return reverse ? 0 - answer : answer;
-      }
-    );
+    });
   }
 
   function filterSearchPrice(): void {
-    let arrayRend: any[] = [];
+    const arrayRend: productItem[] = [];
+    const mainContainerItemArray = Array.from(
+      document.getElementsByClassName('main_container_item')
+    ) as HTMLElement[];
 
     mainContainerItemArraySort(mainContainerItemArray, 2, 'number');
 
-    mainContainerItemArray.forEach((item2: any) =>
-      products.forEach((item: any) => {
-        let value = item2.attributes[1].value.split(';');
+    mainContainerItemArray.forEach((item2) =>
+      products.forEach((item) => {
+        const value = item2.attributes[1].value.split(';');
 
         if (item.title.toLowerCase() === value[4].toLowerCase()) {
           arrayRend.push(item);
@@ -675,15 +757,17 @@ export default function catalog(cart: Cart) {
 
   document.getElementById('price').addEventListener('click', filterSearchPrice);
 
-
   function filterSearchPriceDown(): void {
-    let arrayRend: any[] = [];
+    const arrayRend: productItem[] = [];
 
+    const mainContainerItemArray = Array.from(
+      document.getElementsByClassName('main_container_item')
+    ) as HTMLElement[];
     mainContainerItemArraySort(mainContainerItemArray, 2, 'number', true);
 
-    mainContainerItemArray.forEach((item2: any) =>
-      products.forEach((item: any) => {
-        let value = item2.attributes[1].value.split(';');
+    mainContainerItemArray.forEach((item2) =>
+      products.forEach((item) => {
+        const value = item2.attributes[1].value.split(';');
 
         if (item.title.toLowerCase() === value[4].toLowerCase()) {
           arrayRend.push(item);
@@ -698,7 +782,7 @@ export default function catalog(cart: Cart) {
     currentURL.searchParams.delete('priceSort');
     currentURL.searchParams.delete('brandSort');
     currentURL.searchParams.delete('stockSort');
-    currentURL.searchParams.append('priceSort' , 'down');
+    currentURL.searchParams.append('priceSort', 'down');
 
     window.history.replaceState(null, null, currentURL);
 
@@ -706,53 +790,61 @@ export default function catalog(cart: Cart) {
     filterBrandfunc(products);
   }
 
-  document.getElementById('priceDown').addEventListener('click', filterSearchPriceDown);
+  document
+    .getElementById('priceDown')
+    .addEventListener('click', filterSearchPriceDown);
 
   function filterSearchStock(): void {
-    let arrayRend: any[] = [];
+    const arrayRend: productItem[] = [];
 
+    const mainContainerItemArray = Array.from(
+      document.getElementsByClassName('main_container_item')
+    ) as HTMLElement[];
     mainContainerItemArraySort(mainContainerItemArray, 3, 'number');
 
-    mainContainerItemArray.forEach((item2: any) =>
-        products.forEach((item: any) => {
-          let value = item2.attributes[1].value.split(';');
+    mainContainerItemArray.forEach((item2) =>
+      products.forEach((item) => {
+        const value = item2.attributes[1].value.split(';');
 
-          if (item.title.toLowerCase() === value[4].toLowerCase()) {
-            arrayRend.push(item);
-          }
-        })
-      );
+        if (item.title.toLowerCase() === value[4].toLowerCase()) {
+          arrayRend.push(item);
+        }
+      })
+    );
 
-      resetActive();
+    resetActive();
 
-      document.getElementById('stock').classList.toggle('active');
+    document.getElementById('stock').classList.toggle('active');
 
-      currentURL.searchParams.delete('priceSort');
-      currentURL.searchParams.delete('brandSort');
-      currentURL.searchParams.delete('stockSort');
-      currentURL.searchParams.append('stockSort' , 'up');
+    currentURL.searchParams.delete('priceSort');
+    currentURL.searchParams.delete('brandSort');
+    currentURL.searchParams.delete('stockSort');
+    currentURL.searchParams.append('stockSort', 'up');
 
-      window.history.replaceState(null, null, currentURL);
+    window.history.replaceState(null, null, currentURL);
 
-      renderItems(arrayRend);
-      filterBrandfunc(products);
+    renderItems(arrayRend);
+    filterBrandfunc(products);
   }
 
   document.getElementById('stock').addEventListener('click', filterSearchStock);
 
   function filterSearchBrand(): void {
-    let arrayRend: any[] = [];
+    const arrayRend: productItem[] = [];
 
+    const mainContainerItemArray = Array.from(
+      document.getElementsByClassName('main_container_item')
+    ) as HTMLElement[];
     mainContainerItemArraySort(mainContainerItemArray, 0, 'string', true);
 
-    mainContainerItemArray.forEach((item2: any) =>
-      products.forEach((item: any) => {
-        let value = item2.attributes[1].value.split(';')
+    mainContainerItemArray.forEach((item2) =>
+      products.forEach((item) => {
+        const value = item2.attributes[1].value.split(';');
         if (item.title.toLowerCase() === value[4].toLowerCase()) {
           arrayRend.push(item);
         }
       })
-    )
+    );
 
     resetActive();
 
@@ -761,7 +853,7 @@ export default function catalog(cart: Cart) {
     currentURL.searchParams.delete('priceSort');
     currentURL.searchParams.delete('brandSort');
     currentURL.searchParams.delete('stockSort');
-    currentURL.searchParams.append('brandSort' , 'up');
+    currentURL.searchParams.append('brandSort', 'up');
 
     window.history.replaceState(null, null, currentURL);
 
@@ -778,9 +870,9 @@ export default function catalog(cart: Cart) {
     const stock = url.searchParams.get('stockSort');
     const brand = url.searchParams.get('brandSort');
 
-    if(priceSort === 'up'){
+    if (priceSort === 'up') {
       filterSearchPrice();
-    } else if(priceSort === 'down') {
+    } else if (priceSort === 'down') {
       filterSearchPriceDown();
     }
 
@@ -788,17 +880,17 @@ export default function catalog(cart: Cart) {
       filterSearchStock();
     }
 
-    if (brand === 'up'){
+    if (brand === 'up') {
       filterSearchBrand();
     }
   }
 
   function textInp() {
-      if (inpTextFilter) {
-        search(inpTextFilter, products);
-        searchFilter();
-      }
+    if (inpTextFilter) {
+      search(inpTextFilter, products);
+      searchFilter();
+    }
 
-      filterBrandfunc(products);
+    filterBrandfunc(products);
   }
 }

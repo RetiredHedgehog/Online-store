@@ -1,4 +1,4 @@
-import resetActive from "../resetActive";
+import resetActive from '../resetActive';
 
 export default function btnResetClicked() {
   // active buttons
@@ -11,11 +11,12 @@ export default function btnResetClicked() {
     currentURL.searchParams.delete(key);
   }
 
-  window.history.replaceState(null, null, currentURL)
+  window.history.replaceState(null, null, currentURL);
 
   // checkboxes
-  Array.from(document.getElementsByClassName('inputCheckbox__checkbox'))
-    .forEach((item: HTMLInputElement) => item.checked = false);
+  Array.from(
+    document.getElementsByClassName('inputCheckbox__checkbox')
+  ).forEach((item: HTMLInputElement) => (item.checked = false));
 
   // searchbar
   const searchbar = document.getElementById('search') as HTMLInputElement;

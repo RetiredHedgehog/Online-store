@@ -1,7 +1,7 @@
-import Cart from "classes/Cart";
-import productItem from "interfaces/productsItem";
-import createItem from "./item/item";
-import createSummary from "./summary/summary";
+import Cart from 'classes/Cart';
+import productItem from 'interfaces/productsItem';
+import createItem from './item/item';
+import createSummary from './summary/summary';
 
 export default function createItemsBlock(cart: Cart) {
   const wrapper = document.createElement('div');
@@ -13,7 +13,7 @@ export default function createItemsBlock(cart: Cart) {
   wrapperItems.replaceChildren(
     ...cart.products.map((element: productItem, index: number) =>
       createItem(element, index, cart)
-    ),
+    )
   );
 
   wrapper.append(wrapperItems, createSummary(cart));

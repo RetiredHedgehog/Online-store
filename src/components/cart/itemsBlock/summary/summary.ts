@@ -1,5 +1,5 @@
-import Cart from "classes/Cart";
-import { openPopUp } from "../../popUp/togglePopUp";
+import Cart from 'classes/Cart';
+import { openPopUp } from '../../popUp/togglePopUp';
 
 export default function createSummary(cart: Cart) {
   const wrapper = document.createElement('div');
@@ -14,18 +14,14 @@ export default function createSummary(cart: Cart) {
 
   const total = document.createElement('p');
   total.classList.add('info-container__total');
-  total.innerText =`Total: ${cart.total}`;
+  total.innerText = `Total: ${cart.total}`;
 
   const btnBuy = document.createElement('button');
-  btnBuy.classList.add('btn','info-container__button-buy');
+  btnBuy.classList.add('btn', 'info-container__button-buy');
   btnBuy.innerText = 'Buy';
   btnBuy.addEventListener('click', openPopUp);
 
-  wrapperInfo.append(
-    ammount,
-    total,
-    btnBuy,
-  );
+  wrapperInfo.append(ammount, total, btnBuy);
 
   wrapper.append(wrapperInfo);
   return wrapper;

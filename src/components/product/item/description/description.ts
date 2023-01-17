@@ -1,25 +1,25 @@
-import productItem from "interfaces/productsItem";
+import productItem from 'interfaces/productsItem';
 
 export default function createDescription({
-    description,
-    discountPercentage,
-    rating,
-    stock,
-    brand,
-    category,
-    price
-  }: productItem) {
+  description,
+  discountPercentage,
+  rating,
+  stock,
+  brand,
+  category,
+  price,
+}: productItem) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('details-container__description-container');
 
   const fields = {
     description,
-    "Discount Percentage": discountPercentage,
+    'Discount Percentage': discountPercentage,
     rating,
     stock,
     brand,
     category,
-    price
+    price,
   };
 
   for (const field in fields) {
@@ -36,7 +36,7 @@ export default function createDescription({
 
     wrapperContainer.append(heading, text);
     wrapper.append(wrapperContainer);
-  };
+  }
 
   return wrapper;
 }

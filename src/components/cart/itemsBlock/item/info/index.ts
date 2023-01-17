@@ -1,8 +1,8 @@
-import productItem from "interfaces/productsItem";
+import productItem from 'interfaces/productsItem';
 
 export default function createInfo(item: productItem) {
   const wrapper = document.createElement('div');
-  wrapper.classList.add('item__info')
+  wrapper.classList.add('item__info');
 
   const title = document.createElement('h2');
   title.innerText = item.title;

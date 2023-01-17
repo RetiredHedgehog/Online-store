@@ -1,6 +1,6 @@
-import btnCopyClicked from "./btnCopyClicked";
-import btnResetClicked from "./btnResetClicked";
-import btnRowColumnClicked from "./rowColumnClicked";
+import btnCopyClicked from './btnCopyClicked';
+import btnResetClicked from './btnResetClicked';
+import btnRowColumnClicked from './rowColumnClicked';
 
 export default function createUtilityButtons() {
   const wrapper = document.createElement('div');
@@ -34,12 +34,7 @@ export default function createUtilityButtons() {
   btnRow.innerText = 'Row direction';
   btnRow.addEventListener('click', () => btnRowColumnClicked('row'));
 
-  wrapper.append(
-    btnReset,
-    btnCopy,
-    btnColumn,
-    btnRow,
-  );
+  wrapper.append(btnReset, btnCopy, btnColumn, btnRow);
 
   return wrapper;
 }

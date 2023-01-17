@@ -1,16 +1,15 @@
-import Cart from "classes/Cart";
-import productItem from "interfaces/productsItem";
-import createImage from "./image";
-import createIndex from "./index";
-import createInfo from "./info";
-import createPrice from "./price";
+import Cart from 'classes/Cart';
+import productItem from 'interfaces/productsItem';
+import createImage from './image';
+import createIndex from './index';
+import createInfo from './info';
+import createPrice from './price';
 
 export default function createItem(
   item: productItem,
   index: number,
-  cart: Cart,
-  ) {
-
+  cart: Cart
+) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('items-container__item');
 
@@ -19,7 +18,7 @@ export default function createItem(
     createIndex(index),
     createImage(item),
     createInfo(item),
-    createPrice(item, cart),
+    createPrice(item, cart)
   );
 
   return wrapper;

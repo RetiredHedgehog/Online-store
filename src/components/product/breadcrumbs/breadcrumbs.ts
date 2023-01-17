@@ -1,4 +1,4 @@
-import productItem from "interfaces/productsItem";
+import productItem from 'interfaces/productsItem';
 
 export default function createBreadcrumbs(item: productItem) {
   const wrapper = document.createElement('div');
@@ -11,22 +11,24 @@ export default function createBreadcrumbs(item: productItem) {
   const title = item.title.toUpperCase();
 
   wrapper.append(
-    ...[root, category, brand, title].reduce((acc: HTMLElement[], text: string, index: number) => {
-      if (index !== 0) {
-        const separatorElement = document.createElement('div');
-        separatorElement.innerText = separator;
+    ...[root, category, brand, title].reduce(
+      (acc: HTMLElement[], text: string, index: number) => {
+        if (index !== 0) {
+          const separatorElement = document.createElement('div');
+          separatorElement.innerText = separator;
 
-        acc.push(separatorElement);
-      }
+          acc.push(separatorElement);
+        }
 
-      const element = document.createElement('div');
-      element.innerText = text
+        const element = document.createElement('div');
+        element.innerText = text;
 
-      acc.push(element);
-      return acc;
-    }, [])
+        acc.push(element);
+        return acc;
+      },
+      []
+    )
   );
-  
-  
+
   return wrapper;
 }

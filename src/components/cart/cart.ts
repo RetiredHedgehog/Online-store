@@ -1,6 +1,6 @@
-import Cart from "classes/Cart";
-import createItemsBlock from "./itemsBlock/itemsBlock";
-import createPopUp from "./popUp/popUp";
+import Cart from 'classes/Cart';
+import createItemsBlock from './itemsBlock/itemsBlock';
+import createPopUp from './popUp/popUp';
 
 export default function createCart(cart: Cart) {
   const wrapper = document.createElement('div');
@@ -12,15 +12,12 @@ export default function createCart(cart: Cart) {
   const title = document.createElement('h2');
   title.classList.add('items-container__title');
 
-  title.innerText = cart.length > 0 ? 'Items in your cart' : 'Your cart is empty!';
+  title.innerText =
+    cart.length > 0 ? 'Items in your cart' : 'Your cart is empty!';
 
   wrapperTitle.append(title);
 
-  wrapper.append(
-    wrapperTitle,
-    createItemsBlock(cart),
-    createPopUp(cart),
-  );
+  wrapper.append(wrapperTitle, createItemsBlock(cart), createPopUp(cart));
 
   return wrapper;
 }

@@ -1,5 +1,5 @@
-import createProduct from "@/components/product/product";
-import Cart from "classes/Cart";
+import createProduct from '@/components/product/product';
+import Cart from 'classes/Cart';
 
 export default function createMiniContainer(cart: Cart) {
   const wrapper = document.createElement('div');
@@ -9,24 +9,34 @@ export default function createMiniContainer(cart: Cart) {
 
   const currentURL = new URL(location.href);
 
-  wrapper.addEventListener('click', (event:Event) => {
+  wrapper.addEventListener('click', (event: Event) => {
     const target = event.target as HTMLElement;
     const element = target.closest('.main_container_item') as HTMLElement;
     const productId = parseInt(element.dataset.id);
 
-    if (target.id === 'addToCart')  {
+    if (target.id === 'addToCart') {
       cart.addItem(productId);
-      (<HTMLElement>document.getElementsByClassName('header__cart-btn')[0]).innerText = `${cart.count}`;
-      (<HTMLElement>document.getElementsByClassName('totalPrice')[0]).innerText = `${cart.total}$`;
+      (<HTMLElement>(
+        document.getElementsByClassName('header__cart-btn')[0]
+      )).innerText = `${cart.count}`;
+      (<HTMLElement>(
+        document.getElementsByClassName('totalPrice')[0]
+      )).innerText = `${cart.total}$`;
       return;
     }
 
     if (target.id === 'details') {
       currentURL.search = '';
 
-      window.history.pushState(null, null, `${currentURL.origin}#/products/${productId}`);
+      window.history.pushState(
+        null,
+        null,
+        `${currentURL.origin}#/products/${productId}`
+      );
 
-      document.getElementsByClassName('main')[0].replaceChildren(createProduct(cart));
+      document
+        .getElementsByClassName('main')[0]
+        .replaceChildren(createProduct(cart));
       return;
     }
   });

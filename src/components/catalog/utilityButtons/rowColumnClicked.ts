@@ -1,7 +1,7 @@
 export default function btnRowColumnClicked(direction: string) {
   const buttons = Array.from(document.getElementsByClassName('btn-direction'));
 
-  buttons.forEach(button => button.classList.remove('active'));
+  buttons.forEach((button) => button.classList.remove('active'));
 
   const button = document.getElementById(direction);
   button.classList.add('active');

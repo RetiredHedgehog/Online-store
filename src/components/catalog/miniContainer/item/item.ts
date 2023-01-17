@@ -1,11 +1,13 @@
-import productItem from "interfaces/productsItem";
+import productItem from 'interfaces/productsItem';
 
 export default function createItem(item: productItem) {
   //let rand = Math.floor(Math.random()*item.images.length);
 
   const wrapper = document.createElement('div');
   wrapper.classList.add('main_container_item');
-  wrapper.dataset.value =`${item.brand.toLowerCase()};${item.category.toLowerCase()};${item.price};${item.stock};${item.title.toLowerCase()}`;
+  wrapper.dataset.value = `${item.brand.toLowerCase()};${item.category.toLowerCase()};${
+    item.price
+  };${item.stock};${item.title.toLowerCase()}`;
   wrapper.dataset.id = `${item.id}`;
 
   const image = document.createElement('img');
@@ -51,7 +53,7 @@ export default function createItem(item: productItem) {
     price,
     discountPercentage,
     rating,
-    stock,
+    stock
   );
 
   const btnAddToCart = document.createElement('button');
@@ -71,7 +73,7 @@ export default function createItem(item: productItem) {
     wrapperHeading,
     wrapperCategories,
     btnAddToCart,
-    btnDetails,
+    btnDetails
   );
 
   return wrapper;
