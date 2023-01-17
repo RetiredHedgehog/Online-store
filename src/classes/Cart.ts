@@ -10,7 +10,7 @@ export default class Cart {
   }
 
   moveFromStorageToCart() {
-    this.products = JSON.parse(window.localStorage.getItem('products')) || [];
+    this.products = JSON.parse(window.localStorage.getItem('products') || '[]');
 
     return this.products;
   }
@@ -41,13 +41,15 @@ export default class Cart {
     );
 
     if (itemFound) {
-      itemFound.count = itemFound.count + 1 || 2;
+      itemFound.count = itemFound.count ? itemFound.count + 1 : 2;
     } else {
-      const item = {
-        ...this.productsFetched.find((item: productItem) => item.id === id),
-      };
+      const item: productItem | undefined = this.productsFetched.find(
+        (item: productItem) => item.id === id
+      );
 
-      this.products.push(item);
+      if (item) {
+        this.products.push({ ...item });
+      }
     }
 
     window.localStorage.setItem('products', JSON.stringify(this.products));

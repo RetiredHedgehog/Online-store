@@ -7,7 +7,7 @@
       "classes": ["classes/*"],
       "@/*": ["*"],
     },
-    // "strict": true,
+    "strict": true,
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",

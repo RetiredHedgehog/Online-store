@@ -16,7 +16,7 @@ import './styles/Main.css';
   // === HEADER ===
   document.getElementsByTagName('body')[0].prepend(createHeader(cart));
   const price = document.getElementById('totalPrice');
-  price.innerHTML = `${cart.total}$`;
+  price!.innerHTML = `${cart.total}$`;
 
   // === ROUTER ===
   const routes = {

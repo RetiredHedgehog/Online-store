@@ -6,15 +6,13 @@ import updateSummary from './updateSummary';
 
 export default function minusClicked(event: Event, cart: Cart) {
   const target = event.target as HTMLElement;
-  const wrapper = target.closest(
-    '.items-container__item'
-  ) as HTMLElement | null;
+  const wrapper = target.closest('.items-container__item') as HTMLElement;
   const indexElement = wrapper.firstChild as HTMLElement;
   const index = parseInt(indexElement.innerText) - 1;
 
   const item = cart.products[index];
 
-  if (item.count <= 1 || item.count === undefined) {
+  if (item.count === undefined || item.count <= 1) {
     cart.removeItem(index);
 
     wrapper.remove();

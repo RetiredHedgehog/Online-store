@@ -53,8 +53,8 @@ function asyncFillPhotoWrapper(root: Element, urls: string[]) {
       }
 
       for (let i = 0; i < sizes.length - 1; i++) {
-        if (!stack.includes(sizes[i])) {
-          stack.push(sizes[i]);
+        if (!stack.includes(`${sizes[i]}`)) {
+          stack.push(`${sizes[i]}`);
           urlsUnique.push(urls[i]);
         }
       }

@@ -22,7 +22,7 @@ export default function createHeader(cart: Cart) {
   btnCatalog.classList.add('header__logo-btn', 'btn');
 
   btnCatalog.addEventListener('click', () => {
-    history.pushState(null, null, `/`);
+    history.pushState(null, '', `/`);
 
     //document.getElementsByClassName('main')[0].replaceChildren(catalog(cart));
     catalog(cart);
@@ -38,7 +38,7 @@ export default function createHeader(cart: Cart) {
     const currentURL = new URL(location.href);
     currentURL.search = '';
 
-    history.pushState(null, null, `${currentURL.origin}#/cart`);
+    history.pushState(null, '', `${currentURL.origin}#/cart`);
 
     document
       .getElementsByClassName('main')[0]

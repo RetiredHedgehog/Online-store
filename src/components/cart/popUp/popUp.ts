@@ -176,7 +176,7 @@ export default function createPopUp(cart: Cart) {
       cart.flush();
 
       setTimeout(() => {
-        history.pushState(null, null, `/`);
+        history.pushState(null, '', `/`);
 
         catalog(cart);
       }, 3000);

@@ -11,12 +11,12 @@ export default function btnResetClicked() {
     currentURL.searchParams.delete(key);
   }
 
-  window.history.replaceState(null, null, currentURL);
+  window.history.replaceState(null, '', currentURL);
 
   // checkboxes
-  Array.from(
-    document.getElementsByClassName('inputCheckbox__checkbox')
-  ).forEach((item: HTMLInputElement) => (item.checked = false));
+  (<HTMLInputElement[]>(
+    Array.from(document.getElementsByClassName('inputCheckbox__checkbox'))
+  )).forEach((item: HTMLInputElement) => (item.checked = false));
 
   // searchbar
   const searchbar = document.getElementById('search') as HTMLInputElement;

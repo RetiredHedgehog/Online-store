@@ -12,7 +12,8 @@ export default function createMiniContainer(cart: Cart) {
   wrapper.addEventListener('click', (event: Event) => {
     const target = event.target as HTMLElement;
     const element = target.closest('.main_container_item') as HTMLElement;
-    const productId = parseInt(element.dataset.id);
+
+    const productId = parseInt(element.dataset.id || '0');
 
     if (target.id === 'addToCart') {
       cart.addItem(productId);
@@ -30,7 +31,7 @@ export default function createMiniContainer(cart: Cart) {
 
       window.history.pushState(
         null,
-        null,
+        '',
         `${currentURL.origin}#/products/${productId}`
       );
 

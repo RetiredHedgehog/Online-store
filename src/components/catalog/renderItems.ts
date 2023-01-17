@@ -1,9 +1,15 @@
-export default function renderItems(array: object[] = []) {
+import productItem from 'interfaces/productsItem';
+
+export default function renderItems(array: productItem[] = []) {
   const mainContainerMini = document.getElementById('main_container_mini');
+
+  if (!mainContainerMini) {
+    return;
+  }
 
   mainContainerMini.innerHTML = '';
 
-  array.forEach((item: any) => {
+  array.forEach((item: productItem) => {
     const rand = Math.floor(Math.random() * item.images.length);
 
     mainContainerMini.innerHTML += `

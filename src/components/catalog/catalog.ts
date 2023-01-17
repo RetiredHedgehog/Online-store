@@ -55,7 +55,7 @@ export default function catalog(cart: Cart) {
     const navContainerItemMain = document.getElementById(
       'nav-container__main-brand'
     );
-    navContainerItemMain.innerHTML = '';
+    navContainerItemMain!.innerHTML = '';
 
     array.map((item: productItem) => {
       item.name = 1;
@@ -64,7 +64,7 @@ export default function catalog(cart: Cart) {
         itemBrandArray.push(item.brand.toLowerCase());
         itemsArray.push(item);
       } else {
-        itemsArray[itemBrandArray.indexOf(item.brand.toLowerCase())].name++;
+        itemsArray[itemBrandArray.indexOf(item.brand.toLowerCase())].name!++;
       }
     });
 
@@ -72,12 +72,12 @@ export default function catalog(cart: Cart) {
     itemBrandArrayGenerator(obj);
   }
 
-  function renderInputsCategory(array: object[]) {
+  function renderInputsCategory(array: productItem[]) {
     const navContainerItemMainCategory = document.getElementById(
       'nav-container__main-category'
     );
 
-    navContainerItemMainCategory.innerHTML = '';
+    navContainerItemMainCategory!.innerHTML = '';
     const itemCategoryArray: string[] = [];
 
     array.map((item: productItem) => {
@@ -93,7 +93,7 @@ export default function catalog(cart: Cart) {
   function renderItems(array: productItem[] = []) {
     const mainContainerMini = document.getElementById('main_container_mini');
 
-    mainContainerMini.replaceChildren(
+    mainContainerMini!.replaceChildren(
       ...array.map((item: productItem) => createItem(item))
     );
 
@@ -111,9 +111,6 @@ export default function catalog(cart: Cart) {
   inputRangeArrayfuncStart(products);
   inputRangeArrayStockfuncStart(products);
 
-  const progress = document.getElementById('progressPrice');
-  const progressStock = document.getElementById('progressStock');
-
   renderItems(products);
 
   renderInputsBrand(products);
@@ -127,12 +124,12 @@ export default function catalog(cart: Cart) {
     const flexDirection = url.searchParams.get('flexDirection') || 'row';
     const mainContainerMini = document.getElementById('main_container_mini');
 
-    mainContainerMini.classList.remove('main_container_mini-column');
-    mainContainerMini.classList.remove('main_container_mini-row');
+    mainContainerMini!.classList.remove('main_container_mini-column');
+    mainContainerMini!.classList.remove('main_container_mini-row');
 
-    mainContainerMini.classList.add(`main_container_mini-${flexDirection}`);
+    mainContainerMini!.classList.add(`main_container_mini-${flexDirection}`);
 
-    document.getElementById(flexDirection).classList.add('active');
+    document.getElementById(flexDirection)!.classList.add('active');
   })();
 
   (function renderRowColumn() {
@@ -141,16 +138,16 @@ export default function catalog(cart: Cart) {
 
     const direction = url.searchParams.get('flexDirection');
 
-    mainContainerMini.classList.remove('main_container_mini-row');
-    mainContainerMini.classList.remove('main_container_mini-column');
+    mainContainerMini!.classList.remove('main_container_mini-row');
+    mainContainerMini!.classList.remove('main_container_mini-column');
 
-    mainContainerMini.classList.add(`main_container_mini-${direction}`);
+    mainContainerMini!.classList.add(`main_container_mini-${direction}`);
   })();
 
   (function resetButton() {
     const resetFilt = document.getElementById('resetFilt');
 
-    resetFilt.addEventListener('click', () => {
+    resetFilt!.addEventListener('click', () => {
       filterBrand = [];
       filterCategory = [];
       arrPrice = [];
@@ -219,7 +216,7 @@ export default function catalog(cart: Cart) {
         currentURL.searchParams.delete('price');
         currentURL.searchParams.append('price', inputMin.value);
         currentURL.searchParams.append('price', inputMax.value);
-        window.history.replaceState(null, null, currentURL);
+        window.history.replaceState(null, '', currentURL);
 
         className === 'Price'
           ? inputRangeArrayfunc(cart.productsFetched)
@@ -275,6 +272,12 @@ export default function catalog(cart: Cart) {
     const url = new URL(location.href);
     const price = url.searchParams.getAll('price');
 
+    const progress = document.getElementById('progressPrice');
+
+    if (!progress) {
+      return;
+    }
+
     if (price.length !== 0) {
       progress.style.left = (+price[0] / +rangeInputPrice[0].max) * 100 + '%';
       progress.style.right = (+price[1] / 1749) * 100 + '%';
@@ -290,6 +293,12 @@ export default function catalog(cart: Cart) {
   function RangeWidthStock(arrPrice: number[]) {
     const url = new URL(location.href);
     const stock = url.searchParams.getAll('stock');
+
+    const progressStock = document.getElementById('progressStock');
+
+    if (!progressStock) {
+      return;
+    }
 
     if (stock.length !== 0) {
       progressStock.style.left = (+stock[0] / 150) * 100 + '%';
@@ -315,7 +324,7 @@ export default function catalog(cart: Cart) {
     currentURL.searchParams.delete('inpText');
     currentURL.searchParams.append('inpText', inpSearchText);
 
-    window.history.replaceState(null, null, currentURL);
+    window.history.replaceState(null, '', currentURL);
 
     search(inpSearchText, products);
     searchFilter();
@@ -379,14 +388,14 @@ export default function catalog(cart: Cart) {
         currentURL.searchParams.append('brand', brand);
       }
 
-      window.history.replaceState(null, null, currentURL);
+      window.history.replaceState(null, '', currentURL);
 
       filterBrandfunc(products);
 
       currentURL.searchParams.delete('stock');
       currentURL.searchParams.append('stock', inputMinStock.value);
       currentURL.searchParams.append('stock', inputMaxStock.value);
-      window.history.replaceState(null, null, currentURL);
+      window.history.replaceState(null, '', currentURL);
     })
   );
 
@@ -412,7 +421,7 @@ export default function catalog(cart: Cart) {
         currentURL.searchParams.append('category', category);
       }
 
-      window.history.replaceState(null, null, currentURL);
+      window.history.replaceState(null, '', currentURL);
 
       filterBrandfunc(products);
     })
@@ -426,7 +435,7 @@ export default function catalog(cart: Cart) {
     ) as HTMLElement[];
 
     mainContainerItemArray.forEach((item) => {
-      const arr = item.attributes[1].nodeValue.split(';');
+      const arr = item.attributes[1].nodeValue!.split(';');
 
       if (
         (filterBrand.indexOf(arr[0]) > -1 || filterBrand.length === 0) &&
@@ -455,7 +464,7 @@ export default function catalog(cart: Cart) {
     mainContainerItemArray.forEach((item) => {
       item.style.display = 'none';
 
-      const arr = item.attributes[1].nodeValue.split(';');
+      const arr = item.attributes[1].nodeValue!.split(';');
 
       inpArrSearch.forEach((item1) => {
         if (item1.toLowerCase() == arr[4].toLowerCase()) {
@@ -524,12 +533,12 @@ export default function catalog(cart: Cart) {
       'nav-container__main-brand'
     );
 
-    navContainerItemMain.innerHTML = '';
+    navContainerItemMain!.innerHTML = '';
 
     const amountBrand = amount('brand');
 
     for (const k in obj) {
-      navContainerItemMain.innerHTML += `
+      navContainerItemMain!.innerHTML += `
       <div class='inputCheckbox'>
         <input class='inputBrand inputCheckbox__checkbox' type='checkbox' name=''  value='${k}' ${
         brand.includes(k) ? 'checked' : ''
@@ -559,7 +568,7 @@ export default function catalog(cart: Cart) {
     const amountCategory = amount('category');
 
     for (const k in obj) {
-      navContainerItemMainCategory.innerHTML += `
+      navContainerItemMainCategory!.innerHTML += `
         <div class='inputCheckbox'>
           <input  class='inputCategory inputCheckbox__checkbox' type='checkbox' name='Category'  value='${k}' ${
         categories.includes(k) ? 'checked' : ''
@@ -584,7 +593,7 @@ export default function catalog(cart: Cart) {
 
     for (const k in obj) {
       inputBrandCurrentValue.map((item) => {
-        const val = item.parentNode.parentNode
+        const val = item.parentNode!.parentNode!
           .childNodes[1] as HTMLInputElement;
 
         if (val.value === k) {
@@ -601,7 +610,7 @@ export default function catalog(cart: Cart) {
 
     for (const k in obj) {
       inputCategoryCurrentValue.map((item) => {
-        const val = item.parentNode.parentNode
+        const val = item.parentNode!.parentNode!
           .childNodes[1] as HTMLInputElement;
 
         if (val.value === k) {
@@ -640,10 +649,16 @@ export default function catalog(cart: Cart) {
     currentURL.searchParams.append('price', inputMin.value);
     currentURL.searchParams.append('price', inputMax.value);
 
-    window.history.replaceState(null, null, currentURL);
+    window.history.replaceState(null, '', currentURL);
 
     const url = new URL(location.href);
     const price = url.searchParams.getAll('price');
+
+    const progress = document.getElementById('progressPrice');
+
+    if (!progress) {
+      return;
+    }
 
     if (price.length !== 0) {
       progress.style.left = (+price[0] / 1749) * 100 + '%';
@@ -687,10 +702,16 @@ export default function catalog(cart: Cart) {
     currentURL.searchParams.append('stock', inputMinStock.value);
     currentURL.searchParams.append('stock', inputMaxStock.value);
 
-    window.history.replaceState(null, null, currentURL);
+    window.history.replaceState(null, '', currentURL);
 
     const url = new URL(location.href);
     const stock = url.searchParams.getAll('stock');
+
+    const progressStock = document.getElementById('progressStock');
+
+    if (!progressStock) {
+      return;
+    }
 
     if (stock.length !== 0) {
       progressStock.style.left = (+stock[0] / 150) * 100 + '%';
@@ -711,7 +732,7 @@ export default function catalog(cart: Cart) {
     type: 'number' | 'string',
     reverse = false
   ) {
-    const split = (element: HTMLElement) => element.dataset.value.split(';');
+    const split = (element: HTMLElement) => element.dataset.value!.split(';');
 
     arr.sort((a: HTMLElement, b: HTMLElement) => {
       let answer = 0;
@@ -744,18 +765,20 @@ export default function catalog(cart: Cart) {
 
     resetActive();
 
-    document.getElementById('price').classList.toggle('active');
+    document.getElementById('price')!.classList.toggle('active');
 
     currentURL.searchParams.delete('priceSort');
     currentURL.searchParams.append('priceSort', 'up');
 
-    window.history.replaceState(null, null, currentURL);
+    window.history.replaceState(null, '', currentURL);
 
     renderItems(arrayRend);
     filterBrandfunc(products);
   }
 
-  document.getElementById('price').addEventListener('click', filterSearchPrice);
+  document
+    .getElementById('price')!
+    .addEventListener('click', filterSearchPrice);
 
   function filterSearchPriceDown(): void {
     const arrayRend: productItem[] = [];
@@ -777,21 +800,21 @@ export default function catalog(cart: Cart) {
 
     resetActive();
 
-    document.getElementById('priceDown').classList.toggle('active');
+    document.getElementById('priceDown')!.classList.toggle('active');
 
     currentURL.searchParams.delete('priceSort');
     currentURL.searchParams.delete('brandSort');
     currentURL.searchParams.delete('stockSort');
     currentURL.searchParams.append('priceSort', 'down');
 
-    window.history.replaceState(null, null, currentURL);
+    window.history.replaceState(null, '', currentURL);
 
     renderItems(arrayRend);
     filterBrandfunc(products);
   }
 
   document
-    .getElementById('priceDown')
+    .getElementById('priceDown')!
     .addEventListener('click', filterSearchPriceDown);
 
   function filterSearchStock(): void {
@@ -814,20 +837,22 @@ export default function catalog(cart: Cart) {
 
     resetActive();
 
-    document.getElementById('stock').classList.toggle('active');
+    document.getElementById('stock')!.classList.toggle('active');
 
     currentURL.searchParams.delete('priceSort');
     currentURL.searchParams.delete('brandSort');
     currentURL.searchParams.delete('stockSort');
     currentURL.searchParams.append('stockSort', 'up');
 
-    window.history.replaceState(null, null, currentURL);
+    window.history.replaceState(null, '', currentURL);
 
     renderItems(arrayRend);
     filterBrandfunc(products);
   }
 
-  document.getElementById('stock').addEventListener('click', filterSearchStock);
+  document
+    .getElementById('stock')!
+    .addEventListener('click', filterSearchStock);
 
   function filterSearchBrand(): void {
     const arrayRend: productItem[] = [];
@@ -848,20 +873,22 @@ export default function catalog(cart: Cart) {
 
     resetActive();
 
-    document.getElementById('brand').classList.toggle('active');
+    document.getElementById('brand')!.classList.toggle('active');
 
     currentURL.searchParams.delete('priceSort');
     currentURL.searchParams.delete('brandSort');
     currentURL.searchParams.delete('stockSort');
     currentURL.searchParams.append('brandSort', 'up');
 
-    window.history.replaceState(null, null, currentURL);
+    window.history.replaceState(null, '', currentURL);
 
     renderItems(arrayRend);
     filterBrandfunc(products);
   }
 
-  document.getElementById('brand').addEventListener('click', filterSearchBrand);
+  document
+    .getElementById('brand')!
+    .addEventListener('click', filterSearchBrand);
 
   function filterRenderSearch() {
     const url = new URL(location.href);
