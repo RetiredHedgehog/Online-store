@@ -2,6 +2,7 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
+const EslingPlugin = require('eslint-webpack-plugin');
 
 module.exports = (env, argv) => {
   return {
@@ -21,6 +22,7 @@ module.exports = (env, argv) => {
         template: './main page.html',
       }),
       new CleanWebpackPlugin(),
+      new EslingPlugin({ extensions: 'ts' }),
       new MiniCSSExtractPlugin({
         filename: '[name].[contenthash].css',
       }),
