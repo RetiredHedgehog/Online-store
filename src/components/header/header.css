@@ -1,0 +1,21 @@
+.header__logo-btn {
+  background-image: url("~@/img/logo.png");
+}
+
+.header__cart-btn {
+  background-image: url("~@/img/cart.png");
+}
+
+.header__cart-btn,
+.header__logo-btn {
+  width: 100px;
+  height: 100px; 
+  background-size: cover;
+}
+
+.search {
+  height: 30px;
+  width: 100%;
+  border: 4px solid var(--secondary-color);
+  border-radius: 10px;
+}

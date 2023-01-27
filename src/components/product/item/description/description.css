@@ -1,0 +1,15 @@
+.details-container__description-container {
+  width: 20%;
+  text-align: center;
+}
+
+.description-container__heading {
+}
+
+.description-container__heading,
+.description-container__text {
+  margin: 0;
+}
+.details-container__container{
+  margin: .5rem;
+}

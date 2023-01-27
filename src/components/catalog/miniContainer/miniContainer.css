@@ -1,0 +1,9 @@
+@import './item/item.css';
+
+.main_container_mini-row {
+  flex-direction: row;
+}
+
+.main_container_mini-column {
+  flex-direction: column;
+}

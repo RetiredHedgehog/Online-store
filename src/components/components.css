@@ -1,0 +1,4 @@
+@import './header/header.css';
+@import './catalog/catalog.css';
+@import './product/product.css';
+@import './cart/cart.css';

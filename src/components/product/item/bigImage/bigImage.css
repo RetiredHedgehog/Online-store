@@ -1,0 +1,11 @@
+.details-container__big-image-container {
+  width: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.big-image-container__image{
+  max-width: 100%;
+  height: auto;
+}

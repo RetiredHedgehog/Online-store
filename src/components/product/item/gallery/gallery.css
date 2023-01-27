@@ -1,0 +1,23 @@
+.details-container__gallery-container {
+  margin-left: 2rem;
+  display: flex;
+}
+
+.gallery-container__photo-container {
+  width: 10rem;
+}
+
+.gallery-container__image {
+  height: auto;
+  margin-bottom: 1px;
+  max-width: 100%;
+}
+
+.gallery-container__image:hover {
+  cursor: pointer;
+  opacity: .5;
+}
+
+.gallery-container__image--active {
+  opacity: .5;
+}

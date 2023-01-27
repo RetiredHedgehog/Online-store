@@ -1,0 +1,16 @@
+@import './index/index.css';
+@import './image/image.css';
+@import './info/info.css';
+@import './price/price.css';
+
+.items-container__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--main-padding);
+  border-bottom: 1px var(--main-border-color) solid;
+}
+
+.items-container__item:last-of-type {
+  border-bottom: none;
+}
