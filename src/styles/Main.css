@@ -100,7 +100,6 @@ line-height: 120%;
   }
 
 .btn {
-  /* border: 1px solid var(--main-border-color); */
   border: none;
   background-color: transparent;
 }
