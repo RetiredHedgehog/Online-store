@@ -80,15 +80,17 @@ export default class Cart {
   }
 
   get total() {
+    const minProductCount = 1;
     return this.products.reduce(
-      (acc, product) => product.price * (product.count || 1) + acc,
+      (acc, product) => product.price * (product.count || minProductCount) + acc,
       0
     );
   }
 
   get count() {
+    const minProductCount = 1;
     return this.products.reduce(
-      (acc, product) => (product.count || 1) + acc,
+      (acc, product) => (product.count || minProductCount) + acc,
       0
     );
   }
