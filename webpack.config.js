@@ -57,7 +57,7 @@ module.exports = (env, argv) => {
         classes: path.resolve(__dirname, 'src/classes'),
         '@': path.resolve(__dirname, 'src'),
       },
-      extensions: ['.tsx', '.ts', '.js'],
+      extensions: ['.ts', '.js'],
     },
   };
 };
