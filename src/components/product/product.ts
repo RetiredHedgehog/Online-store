@@ -5,7 +5,7 @@ import createItem from './item/item';
 
 export default function createProduct(cart: Cart) {
   const id = parseInt(new URL(location.href).hash.split('products/')[1]);
-  const item = cart.productsFetched.find((item: productItem) => item.id === id);
+  const item = cart.fetchedProducts.find((item: productItem) => item.id === id);
 
   const wrapper = document.createElement('div');
   wrapper.classList.add('main-container');
