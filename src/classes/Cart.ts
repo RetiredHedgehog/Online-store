@@ -2,11 +2,11 @@ import productItem from 'interfaces/productsItem';
 
 export default class Cart {
   products: productItem[];
-  productsFetched: productItem[];
+  fetchedProducts: productItem[];
 
   constructor() {
     this.products = [];
-    this.productsFetched = [];
+    this.fetchedProducts = [];
   }
 
   moveFromStorageToCart() {
@@ -44,7 +44,7 @@ export default class Cart {
       const defaultItemCount = 2;
       item.count = item.count ? item.count + 1 : defaultItemCount;
     } else {
-      const item: productItem | undefined = this.productsFetched.find(
+      const item: productItem | undefined = this.fetchedProducts.find(
         (item: productItem) => item.id === id
       );
 
@@ -59,10 +59,10 @@ export default class Cart {
   async fetchItems(url = `https://dummyjson.com/products?limit=100`) {
     await fetch(url)
       .then((res) => res.json())
-      .then((data) => (this.productsFetched = data.products));
+      .then((data) => (this.fetchedProducts = data.products));
   }
 
-  flush() {
+  resetcart() {
     this.products.length = 0;
 
     (<HTMLElement>(

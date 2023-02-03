@@ -32,7 +32,7 @@ export default function catalog(cart: Cart) {
 
   const currentURL = new URL(location.href);
 
-  const products: productItem[] = cart.productsFetched;
+  const products: productItem[] = cart.fetchedProducts;
 
   let newItemsArray: HTMLElement[] = [];
   let filterBrand = currentURL.searchParams.getAll('brand');
@@ -219,10 +219,10 @@ export default function catalog(cart: Cart) {
         window.history.replaceState(null, '', currentURL);
 
         className === 'Price'
-          ? inputRangeArrayfunc(cart.productsFetched)
-          : inputRangeStockArrayfunc(cart.productsFetched);
+          ? inputRangeArrayfunc(cart.fetchedProducts)
+          : inputRangeStockArrayfunc(cart.fetchedProducts);
 
-        filterBrandfunc(cart.productsFetched);
+        filterBrandfunc(cart.fetchedProducts);
       });
     });
   }
