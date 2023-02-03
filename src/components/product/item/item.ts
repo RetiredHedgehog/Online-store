@@ -1,6 +1,6 @@
 import productItem from 'interfaces/productsItem';
 import createGallery from './gallery/gallery';
-import createBigImage from './bigImage/bigImage';
+import createMainImage from './mainImage/mainImage';
 import createDescription from './description/description';
 import createCheckout from './checkout/checkout';
 import Cart from 'classes/Cart';
@@ -18,7 +18,7 @@ export default function createItem(item: productItem, cart: Cart) {
 
   detailsWrapper.append(
     createGallery(item.images),
-    createBigImage(item.images[0]),
+    createMainImage(item.images[0]),
     createDescription(item),
     createCheckout(item, cart)
   );

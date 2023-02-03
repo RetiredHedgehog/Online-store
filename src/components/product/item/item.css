@@ -1,12 +1,11 @@
 @import './gallery/gallery.css';
-@import './bigImage/bigImage.css';
+@import './mainImage/mainImage.css';
 @import './description/description.css';
 @import './checkout/checkout.css';
 
 .main-container__item-container {
   width: 100%;
   margin-top: 2rem;
-
 }
 
 .item-container__title {
