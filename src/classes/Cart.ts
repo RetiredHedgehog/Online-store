@@ -82,7 +82,8 @@ export default class Cart {
   get total() {
     const minProductCount = 1;
     return this.products.reduce(
-      (acc, product) => product.price * (product.count || minProductCount) + acc,
+      (acc, product) =>
+        product.price * (product.count || minProductCount) + acc,
       0
     );
   }

@@ -11,5 +11,4 @@ export default interface productItem {
   thumbnail: string;
   images: string[];
   count?: number;
-  name?: number;
 }

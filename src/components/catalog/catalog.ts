@@ -58,13 +58,9 @@ export default function catalog(cart: Cart) {
     navContainerItemMain!.innerHTML = '';
 
     array.map((item: productItem) => {
-      item.name = 1;
-
       if (itemBrandArray.indexOf(item.brand.toLowerCase()) == -1) {
         itemBrandArray.push(item.brand.toLowerCase());
         itemsArray.push(item);
-      } else {
-        itemsArray[itemBrandArray.indexOf(item.brand.toLowerCase())].name!++;
       }
     });
 
