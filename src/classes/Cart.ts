@@ -2,11 +2,11 @@ import productItem from 'interfaces/productsItem';
 
 export default class Cart {
   products: productItem[];
-  productsFetched: productItem[];
+  fetchedProducts: productItem[];
 
   constructor() {
     this.products = [];
-    this.productsFetched = [];
+    this.fetchedProducts = [];
   }
 
   moveFromStorageToCart() {
@@ -36,14 +36,15 @@ export default class Cart {
   }
 
   addItem(id: number) {
-    const itemFound = this.products.find(
-      (itemSearch: productItem) => itemSearch.id === id
+    const item = this.products.find(
+      (currentItem: productItem) => currentItem.id === id
     );
 
-    if (itemFound) {
-      itemFound.count = itemFound.count ? itemFound.count + 1 : 2;
+    if (item) {
+      const defaultItemCount = 2;
+      item.count = item.count ? item.count + 1 : defaultItemCount;
     } else {
-      const item: productItem | undefined = this.productsFetched.find(
+      const item: productItem | undefined = this.fetchedProducts.find(
         (item: productItem) => item.id === id
       );
 
@@ -58,10 +59,10 @@ export default class Cart {
   async fetchItems(url = `https://dummyjson.com/products?limit=100`) {
     await fetch(url)
       .then((res) => res.json())
-      .then((data) => (this.productsFetched = data.products));
+      .then((data) => (this.fetchedProducts = data.products));
   }
 
-  flush() {
+  resetcart() {
     this.products.length = 0;
 
     (<HTMLElement>(
@@ -79,15 +80,18 @@ export default class Cart {
   }
 
   get total() {
+    const minProductCount = 1;
     return this.products.reduce(
-      (acc, product) => product.price * (product.count || 1) + acc,
+      (acc, product) =>
+        product.price * (product.count || minProductCount) + acc,
       0
     );
   }
 
   get count() {
+    const minProductCount = 1;
     return this.products.reduce(
-      (acc, product) => (product.count || 1) + acc,
+      (acc, product) => (product.count || minProductCount) + acc,
       0
     );
   }

@@ -49,7 +49,7 @@ export default function createCheckout(item: productItem, cart: Cart) {
 
   if (
     cart.products.find(
-      (itemSearch: productItem) => itemSearch.id === item.id
+      (currentItem: productItem) => currentItem.id === item.id
     ) === undefined
   ) {
     btnToggleCart.innerText = 'add to cart'.toUpperCase();

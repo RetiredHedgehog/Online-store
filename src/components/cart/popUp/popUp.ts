@@ -173,7 +173,7 @@ export default function createPopUp(cart: Cart) {
 
       document.getElementsByClassName('popUp__info')[0].replaceChildren(text);
 
-      cart.flush();
+      cart.resetcart();
 
       setTimeout(() => {
         history.pushState(null, '', `/`);

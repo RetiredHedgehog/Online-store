@@ -19,7 +19,7 @@ function changeImage(e: Event) {
   target.classList.add('gallery-container__image--active');
 
   const bigImageElement = document.getElementsByClassName(
-    'big-image-container__image'
+    'main-image-container__image'
   )[0] as HTMLImageElement;
   bigImageElement.src = target.src;
 }

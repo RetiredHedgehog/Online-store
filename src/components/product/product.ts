@@ -4,8 +4,9 @@ import createBreadcrumbs from './breadcrumbs/breadcrumbs';
 import createItem from './item/item';
 
 export default function createProduct(cart: Cart) {
-  const id = parseInt(new URL(location.href).hash.split('products/')[1]);
-  const item = cart.productsFetched.find((item: productItem) => item.id === id);
+  const separator = 'products/';
+  const id = parseInt(new URL(location.href).hash.split(separator)[1]);
+  const item = cart.fetchedProducts.find((item: productItem) => item.id === id);
 
   const wrapper = document.createElement('div');
   wrapper.classList.add('main-container');

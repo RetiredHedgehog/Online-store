@@ -16,13 +16,13 @@ export default function createDoubleSlider({
   wrapper.id = className;
   wrapper.classList.add(className);
 
-  cart.productsFetched.sort(
+  cart.fetchedProducts.sort(
     (a: productItem, b: productItem) => a[sortingField] - b[sortingField]
   );
 
-  const min = cart.productsFetched[0][sortingField];
+  const min = cart.fetchedProducts[0][sortingField];
   const max =
-    cart.productsFetched[cart.productsFetched.length - 1][sortingField];
+    cart.fetchedProducts[cart.fetchedProducts.length - 1][sortingField];
   const step = 1;
 
   wrapper.innerHTML = '';

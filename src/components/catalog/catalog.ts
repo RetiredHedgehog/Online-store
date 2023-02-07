@@ -32,7 +32,7 @@ export default function catalog(cart: Cart) {
 
   const currentURL = new URL(location.href);
 
-  const products: productItem[] = cart.productsFetched;
+  const products: productItem[] = cart.fetchedProducts;
 
   let newItemsArray: HTMLElement[] = [];
   let filterBrand = currentURL.searchParams.getAll('brand');
@@ -58,13 +58,9 @@ export default function catalog(cart: Cart) {
     navContainerItemMain!.innerHTML = '';
 
     array.map((item: productItem) => {
-      item.name = 1;
-
       if (itemBrandArray.indexOf(item.brand.toLowerCase()) == -1) {
         itemBrandArray.push(item.brand.toLowerCase());
         itemsArray.push(item);
-      } else {
-        itemsArray[itemBrandArray.indexOf(item.brand.toLowerCase())].name!++;
       }
     });
 
@@ -219,10 +215,10 @@ export default function catalog(cart: Cart) {
         window.history.replaceState(null, '', currentURL);
 
         className === 'Price'
-          ? inputRangeArrayfunc(cart.productsFetched)
-          : inputRangeStockArrayfunc(cart.productsFetched);
+          ? inputRangeArrayfunc(cart.fetchedProducts)
+          : inputRangeStockArrayfunc(cart.fetchedProducts);
 
-        filterBrandfunc(cart.productsFetched);
+        filterBrandfunc(cart.fetchedProducts);
       });
     });
   }
